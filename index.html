@@ -1,0 +1,2542 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HostMaster & KeyRush - Ecosystem</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        themeBg: '#090d16',
+                        cardBg: '#0f172a',
+                        cardHover: '#1e293b',
+                        inputBg: '#1e293b',
+                        borderClr: '#334155',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #090d16; color: #f8fafc; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        .glass-card { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(12px); border: 1px solid rgba(51, 65, 85, 0.6); }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+        }
+        .pulse-live { animation: pulseGlow 2s infinite ease-in-out; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
+
+    <!-- AUDIO NOTIFICATION -->
+    <audio id="dispatch-sound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+
+    <!-- MODAL UNIVERSAL / GRÁFICOS AVANÇADOS -->
+    <div id="universal-modal" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-card max-w-4xl w-full p-6 rounded-3xl shadow-2xl border border-rose-500/50 space-y-5 relative max-h-[92vh] overflow-y-auto">
+            <button type="button" onclick="fecharModalUniversal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modal-content-body" class="space-y-4 pt-2"></div>
+        </div>
+    </div>
+
+    <!-- LANDING PAGE + LOGIN / CADASTRO -->
+    <div id="login-screen" class="fixed inset-0 z-50 overflow-y-auto bg-[#070b14] text-white">
+        <div class="absolute inset-0 pointer-events-none overflow-hidden">
+            <div class="absolute -top-40 -left-32 w-[34rem] h-[34rem] rounded-full bg-amber-500/10 blur-3xl"></div>
+            <div class="absolute top-1/3 -right-40 w-[36rem] h-[36rem] rounded-full bg-emerald-500/10 blur-3xl"></div>
+            <div class="absolute bottom-0 left-1/3 w-[30rem] h-[20rem] rounded-full bg-indigo-500/10 blur-3xl"></div>
+        </div>
+        <div class="relative max-w-7xl mx-auto min-h-screen px-5 py-8 lg:py-12 grid lg:grid-cols-[1.15fr_.85fr] gap-8 items-center">
+            <section class="space-y-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-300 to-amber-600 text-slate-950 flex items-center justify-center text-2xl shadow-xl shadow-amber-500/20"><i class="fa-solid fa-key"></i></div>
+                    <div><div class="font-black tracking-tight text-xl">HostMaster <span class="text-amber-400">&</span> KeyRush</div><div class="text-[10px] uppercase tracking-[.24em] text-slate-400">Gestão inteligente de hospedagens</div></div>
+                </div>
+                <div class="max-w-2xl space-y-5">
+                    <span class="inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-400/10 px-3 py-1.5 text-[11px] font-bold text-emerald-300"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Gestão estratégica • Operação • Serviços</span>
+                    <h1 class="text-4xl sm:text-5xl xl:text-6xl font-black leading-[1.04] tracking-tight">Seu aluguel por temporada, <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-emerald-300">sob gestão inteligente.</span></h1>
+                    <p class="text-sm sm:text-base text-slate-300 leading-7 max-w-xl">Uma central para organizar imóveis, acompanhar resultados, solicitar serviços e conectar proprietários a uma rede de prestadores. Mais controle para o proprietário. Mais oportunidades para quem executa.</p>
+                </div>
+                <div class="grid sm:grid-cols-3 gap-3 max-w-3xl">
+                    <div class="rounded-2xl border border-white/10 bg-white/[.04] p-4"><i class="fa-solid fa-house-chimney text-amber-300 text-xl"></i><h3 class="font-bold text-sm mt-3">Gestão de imóveis</h3><p class="text-[11px] leading-5 text-slate-400 mt-1">Acompanhamento de hospedagens, imóveis e desempenho.</p></div>
+                    <div class="rounded-2xl border border-white/10 bg-white/[.04] p-4"><i class="fa-solid fa-screwdriver-wrench text-emerald-300 text-xl"></i><h3 class="font-bold text-sm mt-3">Serviços sob demanda</h3><p class="text-[11px] leading-5 text-slate-400 mt-1">Limpeza, manutenção, enxoval, chaves e concierge.</p></div>
+                    <div class="rounded-2xl border border-white/10 bg-white/[.04] p-4"><i class="fa-solid fa-chart-line text-indigo-300 text-xl"></i><h3 class="font-bold text-sm mt-3">Visão financeira</h3><p class="text-[11px] leading-5 text-slate-400 mt-1">Relatórios, valores dos serviços e indicadores operacionais.</p></div>
+                </div>
+                <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] text-slate-400"><span><i class="fa-solid fa-check text-emerald-400 mr-2"></i>Proprietários conectados</span><span><i class="fa-solid fa-check text-emerald-400 mr-2"></i>Rede de prestadores</span><span><i class="fa-solid fa-check text-emerald-400 mr-2"></i>Gestão centralizada</span></div>
+            </section>
+
+            <section class="w-full max-w-xl lg:ml-auto">
+                <div class="rounded-[2rem] border border-white/10 bg-slate-900/80 backdrop-blur-xl p-6 sm:p-8 shadow-2xl shadow-black/40">
+                    <div class="mb-6"><p class="text-[10px] uppercase tracking-[.22em] font-black text-amber-400">Área segura de acesso</p><h2 class="text-2xl font-black mt-2">Bem-vindo ao ecossistema</h2><p class="text-xs text-slate-400 mt-1">Entre na sua conta ou crie seu cadastro gratuitamente.</p></div>
+                    <div id="backend-setup-warning" class="mt-4 rounded-xl border border-amber-400/30 bg-amber-400/10 p-3 text-[11px] leading-5 text-amber-200">Conectando ao servidor seguro...</div>
+                    <div class="grid grid-cols-3 gap-2 mb-5">
+                        <button type="button" onclick="selecionarPerfilLogin('gestor')" id="btn-select-gestor" class="p-3 rounded-xl bg-slate-800 border-2 border-amber-500 text-center transition"><i class="fa-solid fa-crown text-amber-400"></i><span class="block text-[10px] font-bold mt-2">Master</span></button>
+                        <button type="button" onclick="selecionarPerfilLogin('proprietario')" id="btn-select-proprietario" class="p-3 rounded-xl bg-slate-950 border border-slate-700 text-center transition"><i class="fa-solid fa-house-chimney text-emerald-400"></i><span class="block text-[10px] font-bold mt-2">Proprietário</span></button>
+                        <button type="button" onclick="selecionarPerfilLogin('prestador')" id="btn-select-prestador" class="p-3 rounded-xl bg-slate-950 border border-slate-700 text-center transition"><i class="fa-solid fa-user-gear text-teal-400"></i><span class="block text-[10px] font-bold mt-2">Prestador</span></button>
+                    </div>
+                    <form onsubmit="realizarLoginEfetivo(event)" class="space-y-3 text-xs">
+                        <div class="flex items-center justify-between gap-2"><label id="login-active-label" class="text-slate-300 font-bold">Acesso Gestor Master</label><span class="text-[9px] text-emerald-300"><i class="fa-solid fa-shield-halved mr-1"></i>Conexão protegida</span></div>
+                        <input type="email" id="login-email-input" required value="" placeholder="Seu e-mail" autocomplete="username" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-amber-500">
+                        <input type="password" id="login-pass-input" required value="" placeholder="Sua senha" autocomplete="current-password" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-3 px-4 text-white focus:outline-none focus:border-amber-500">
+                        <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black rounded-xl uppercase tracking-wider transition shadow-lg shadow-amber-500/15">Entrar no sistema <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                    </form>
+                    <div class="relative my-5"><div class="border-t border-slate-700"></div><span class="absolute left-1/2 -translate-x-1/2 -top-2.5 px-3 bg-slate-900 text-[10px] text-slate-500">OU CRIE SUA CONTA</span></div>
+                    <div class="grid sm:grid-cols-2 gap-3">
+                        <button type="button" onclick="abrirCadastro('proprietario')" class="rounded-xl border border-emerald-400/30 bg-emerald-400/10 hover:bg-emerald-400/15 p-3 text-left transition"><span class="flex items-center justify-between"><i class="fa-solid fa-house-chimney text-emerald-300"></i><i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-emerald-300"></i></span><b class="block text-xs mt-2">Sou proprietário</b><span class="block text-[10px] text-slate-400 mt-1">Cadastre seus imóveis e solicite serviços.</span></button>
+                        <button type="button" onclick="abrirCadastro('prestador')" class="rounded-xl border border-teal-400/30 bg-teal-400/10 hover:bg-teal-400/15 p-3 text-left transition"><span class="flex items-center justify-between"><i class="fa-solid fa-toolbox text-teal-300"></i><i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-teal-300"></i></span><b class="block text-xs mt-2">Sou prestador</b><span class="block text-[10px] text-slate-400 mt-1">Receba chamados e acompanhe seus ganhos.</span></button>
+                    </div>
+                    <p class="text-[9px] text-slate-500 text-center mt-5">Acesso protegido por Supabase: cadastros, imóveis, serviços e solicitações são gravados no servidor quando a conexão estiver configurada.</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- MODAL DE CADASTRO -->
+    <div id="register-modal" class="hidden fixed inset-0 z-[70] bg-slate-950/90 backdrop-blur-md p-4 overflow-y-auto flex items-center justify-center">
+        <div class="w-full max-w-lg rounded-3xl border border-emerald-400/20 bg-slate-900 p-6 sm:p-8 shadow-2xl relative">
+            <button type="button" onclick="fecharCadastro()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-800 text-slate-300 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            <div class="w-12 h-12 rounded-2xl bg-emerald-400/15 text-emerald-300 flex items-center justify-center text-xl"><i id="register-icon" class="fa-solid fa-house-chimney"></i></div>
+            <p class="text-[10px] uppercase tracking-[.2em] text-emerald-300 font-black mt-4">Novo cadastro</p><h2 id="register-title" class="text-2xl font-black mt-1">Cadastro de proprietário</h2><p id="register-description" class="text-xs text-slate-400 mt-1 mb-5">Crie seu acesso para gerenciar seus imóveis e serviços.</p>
+            <form onsubmit="registrarConta(event)" class="space-y-3">
+                <input type="hidden" id="register-role" value="proprietario">
+                <label class="block text-[11px] text-slate-300 font-bold">Nome completo<input id="register-name" required minlength="3" class="mt-1 w-full rounded-xl bg-slate-950 border border-slate-700 px-4 py-3 text-sm text-white outline-none focus:border-emerald-400" placeholder="Seu nome"></label>
+                <label class="block text-[11px] text-slate-300 font-bold">E-mail<input id="register-email" type="email" required class="mt-1 w-full rounded-xl bg-slate-950 border border-slate-700 px-4 py-3 text-sm text-white outline-none focus:border-emerald-400" placeholder="voce@email.com"></label>
+                <label class="block text-[11px] text-slate-300 font-bold">Telefone / WhatsApp<input id="register-phone" type="tel" required class="mt-1 w-full rounded-xl bg-slate-950 border border-slate-700 px-4 py-3 text-sm text-white outline-none focus:border-emerald-400" placeholder="(00) 00000-0000"></label>
+                <label class="block text-[11px] text-slate-300 font-bold">Senha (mínimo 6 caracteres)<input id="register-password" type="password" required minlength="6" class="mt-1 w-full rounded-xl bg-slate-950 border border-slate-700 px-4 py-3 text-sm text-white outline-none focus:border-emerald-400" placeholder="Crie uma senha"></label>
+                <button type="submit" class="w-full rounded-xl bg-gradient-to-r from-emerald-400 to-teal-400 text-slate-950 font-black py-3.5 mt-2">Criar minha conta <i class="fa-solid fa-check ml-1"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <!-- APLICAÇÃO PRINCIPAL -->
+    <div id="main-ecosystem" class="hidden min-h-screen flex flex-col">
+        
+        <!-- HEADER -->
+        <header class="bg-cardBg/95 border-b border-borderClr sticky top-0 z-40 backdrop-blur-md">
+            <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <div class="bg-gradient-to-tr from-amber-500 to-amber-300 p-2.5 rounded-xl text-slate-950 font-black shadow-lg shadow-amber-500/20">
+                        <i class="fa-solid fa-key text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-extrabold text-sm text-white leading-tight flex items-center gap-2">
+                            HostMaster 
+                            <span id="header-badge-role" class="text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2.5 py-0.5 rounded-full font-mono font-bold">
+                                GESTOR MASTER
+                            </span>
+                        </h1>
+                        <p class="text-[11px] text-slate-400">Co-Hosting, Limpezas e Rede de Entregadores de Chaves</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div id="topbar-status-radar" class="hidden items-center gap-2 px-3 py-1 rounded-xl text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 pulse-live"></span> <span>RADAR KEYRUSH ON</span>
+                    </div>
+                    <button type="button" id="topbar-request-service-btn" onclick="dispararNovaMissaoModal()" class="px-3.5 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white transition flex items-center gap-1.5 shadow-lg shadow-emerald-500/20">
+                        <i class="fa-solid fa-bicycle"></i> Solicitar Serviço KeyRush
+                    </button>
+                    <button type="button" onclick="fazerLogout()" class="px-3 py-2 rounded-xl text-xs font-bold bg-rose-500/10 text-rose-400 border border-rose-500/30 hover:bg-rose-500/20 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-right-from-bracket"></i> Sair
+                    </button>
+                </div>
+            </div>
+
+            <!-- NAVEGAÇÃO POR ABAS SUPERIOR E BOTÃO DE GRÁFICOS EM DESTAQUE VERMELHO -->
+            <div class="max-w-7xl mx-auto px-4 flex items-center justify-between border-t border-borderClr/40 overflow-x-auto">
+                <div class="flex space-x-6 text-xs text-slate-400" id="dynamic-nav-tabs"></div>
+                
+                <!-- BOTÃO DESTAQUE EM VERMELHO NO CANTO (GRÁFICOS AVANÇADOS) -->
+                <div id="container-btn-graficos-master" class="py-2">
+                    <button type="button" onclick="abrirModalGraficosMaster()" class="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-black rounded-xl shadow-lg shadow-rose-600/40 border border-rose-400 flex items-center gap-2 animate-pulse transition">
+                        <i class="fa-solid fa-chart-line text-sm"></i> Gráficos & DRE Avançados 📊
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="max-w-7xl w-full mx-auto px-4 mt-6 space-y-6 flex-1 pb-16">
+
+            <!-- 1. PAINEL DO GESTOR MASTER -->
+            <div id="panel-gestor" class="hidden space-y-6">
+                <!-- Indicadores do Gestor -->
+                <section class="grid grid-cols-1 sm:grid-cols-5 gap-4">
+                    <div class="glass-card p-4 rounded-2xl border-l-4 border-l-amber-500 space-y-1">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Faturamento Bruto</span>
+                        <h3 id="master-stat-income" class="text-xl font-black text-white font-mono">R$ 0,00</h3>
+                        <p class="text-[10px] text-slate-400">Receitas lançadas no DRE</p>
+                    </div>
+                    <div class="glass-card p-4 rounded-2xl border-l-4 border-l-emerald-500 space-y-1">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Comissão Co-Host</span>
+                        <h3 class="text-xl font-black text-emerald-400 font-mono">—</h3>
+                        <p class="text-[10px] text-slate-400">A configurar</p>
+                    </div>
+                    <div class="glass-card p-4 rounded-2xl border-l-4 border-l-teal-500 space-y-1">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Spread Limpeza</span>
+                        <h3 class="text-xl font-black text-amber-400 font-mono">—</h3>
+                        <p class="text-[10px] text-slate-400">A configurar</p>
+                    </div>
+                    <div class="glass-card p-4 rounded-2xl border-l-4 border-l-indigo-500 space-y-1">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Custo KeyRush</span>
+                        <h3 class="text-xl font-black text-indigo-400 font-mono">—</h3>
+                        <p class="text-[10px] text-slate-400">A configurar</p>
+                    </div>
+                    <div class="glass-card p-4 rounded-2xl border border-rose-500/40 bg-rose-500/5 space-y-1">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-rose-300">Lucro Seu Líquido</span>
+                        <h3 id="master-stat-profit" class="text-xl font-black text-rose-400 font-mono">R$ 0,00</h3>
+                        <p class="text-[10px] text-slate-400">Receitas menos despesas lançadas</p>
+                    </div>
+                </section>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- DRE & Imóveis -->
+                    <div class="lg:col-span-7 bg-cardBg border border-borderClr rounded-2xl p-6 space-y-4">
+                        <div class="flex justify-between items-center border-b border-borderClr pb-3">
+                            <h2 class="text-xs font-bold text-white flex items-center gap-2 uppercase tracking-wider">
+                                <i class="fa-solid fa-file-invoice-dollar text-amber-500"></i> Imóveis cadastrados e gestão de disponibilidade
+                            </h2>
+                            <span id="master-property-count" class="text-[10px] bg-amber-500/20 text-amber-300 px-2.5 py-0.5 rounded-full font-mono font-bold">0 imóveis</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead class="text-slate-400 border-b border-borderClr font-mono text-[11px]">
+                                    <tr>
+                                        <th class="py-2.5 px-2">Imóvel</th>
+                                        <th class="py-2.5 px-2">Endereço</th>
+                                        <th class="py-2.5 px-2">Diária</th>
+                                        <th class="py-2.5 px-2">Status</th>
+                                        <th class="py-2.5 px-2 text-right">Calendário</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="master-properties-table" class="divide-y divide-borderClr/40 text-slate-200"><tr><td colspan="5" class="py-6 text-center text-slate-500">Os imóveis cadastrados aparecerão aqui.</td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Escala de Limpezas -->
+                    <div class="lg:col-span-5 bg-cardBg border border-borderClr rounded-2xl p-6 space-y-4">
+                        <div class="flex justify-between items-center border-b border-borderClr pb-3">
+                            <h2 class="text-xs font-bold text-white flex items-center gap-2 uppercase tracking-wider">
+                                <i class="fa-solid fa-broom text-amber-400"></i> Escala de Limpezas (WhatsApp)
+                            </h2>
+                            <span class="text-[10px] bg-teal-500/20 text-teal-300 px-2.5 py-0.5 rounded-full font-mono font-bold">Aguardando chamados</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="p-6 bg-slate-900/60 border border-dashed border-slate-700 rounded-xl text-center text-xs text-slate-400">
+                                Nenhuma limpeza agendada. Os atendimentos aparecerão aqui quando houver chamados reais.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAINEL MASTER: CATÁLOGO DE SERVIÇOS E VALORES -->
+            <div id="panel-servicos-master" class="hidden space-y-6">
+                <div class="bg-gray-900 border border-amber-500/30 rounded-2xl p-6 space-y-5">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.2em] text-amber-400 font-black">Configuração Master</p>
+                            <h2 class="text-2xl font-black text-white mt-1">Catálogo de serviços</h2>
+                            <p class="text-sm text-gray-400 mt-1">Cadastre, edite preços e escolha quais serviços ficam disponíveis para os proprietários.</p>
+                        </div>
+                        <button type="button" onclick="openServiceForm()" class="px-4 py-3 bg-amber-500 hover:bg-amber-400 text-gray-950 font-black text-xs rounded-xl transition shadow-lg">
+                            <i class="fa-solid fa-plus mr-2"></i>Adicionar serviço
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <div class="bg-gray-950 border border-gray-800 rounded-xl p-4"><p class="text-[10px] text-gray-400 uppercase font-bold">Serviços cadastrados</p><p id="serviceAdminTotal" class="text-2xl font-black text-white mt-1">0</p></div>
+                        <div class="bg-gray-950 border border-gray-800 rounded-xl p-4"><p class="text-[10px] text-gray-400 uppercase font-bold">Disponíveis ao proprietário</p><p id="serviceAdminActive" class="text-2xl font-black text-emerald-400 mt-1">0</p></div>
+                        <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 col-span-2 sm:col-span-1"><p class="text-[10px] text-gray-400 uppercase font-bold">Inativos</p><p id="serviceAdminInactive" class="text-2xl font-black text-gray-400 mt-1">0</p></div>
+                    </div>
+
+                    <form id="serviceEditorForm" onsubmit="saveServiceFromForm(event)" class="hidden bg-gray-950 border border-amber-500/30 rounded-2xl p-4 sm:p-5 space-y-4">
+                        <div class="flex items-center justify-between gap-3"><h3 id="serviceEditorTitle" class="font-black text-white">Novo serviço</h3><button type="button" onclick="cancelServiceEdit()" class="text-gray-400 hover:text-white" aria-label="Fechar formulário"><i class="fa-solid fa-xmark"></i></button></div>
+                        <input type="hidden" id="serviceEditId">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <label class="text-xs text-gray-300 font-semibold">Nome do serviço<input id="serviceNameInput" required maxlength="70" placeholder="Ex.: Limpeza completa" class="mt-1 w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-3 text-sm text-white outline-none focus:border-amber-500"></label>
+                            <label class="text-xs text-gray-300 font-semibold">Categoria<select id="serviceCategoryInput" class="mt-1 w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-3 text-sm text-white outline-none focus:border-amber-500"><option>KeyRush</option><option>Limpeza</option><option>Manutenção</option><option>Concierge</option><option>Lavanderia</option><option>Outros</option></select></label>
+                            <label class="text-xs text-gray-300 font-semibold">Valor para o proprietário (R$)<input id="servicePriceInput" type="number" min="0" step="0.01" required placeholder="Informe o preço" class="mt-1 w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-3 text-sm text-white outline-none focus:border-amber-500"></label>
+                            <label class="text-xs text-gray-300 font-semibold">Descrição<input id="serviceDescriptionInput" maxlength="140" placeholder="O que está incluído no serviço" class="mt-1 w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-3 text-sm text-white outline-none focus:border-amber-500"></label>
+                        </div>
+                        <label class="flex items-center gap-2 text-xs text-gray-300"><input id="serviceActiveInput" type="checkbox" checked class="accent-amber-500 w-4 h-4"> Disponibilizar este serviço para os proprietários</label>
+                        <div class="flex flex-wrap gap-2"><button type="submit" class="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-gray-950 font-black text-xs rounded-xl">Salvar serviço</button><button type="button" onclick="cancelServiceEdit()" class="px-5 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold text-xs rounded-xl">Cancelar</button></div>
+                    </form>
+
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between"><h3 class="font-bold text-white">Lista de serviços e valores</h3><span class="text-[10px] text-gray-500">As alterações aparecem na área do proprietário</span></div>
+                        <div id="serviceAdminList" class="space-y-2"></div>
+                    </div>
+                    <p class="text-[10px] text-gray-500 border-t border-gray-800 pt-3">O catálogo é salvo no Supabase. Alterações do Gestor Master são refletidas para os proprietários conectados.</p>
+                </div>
+            </div>
+
+            <!-- 2. PAINEL DO PROPRIETÁRIO -->
+            
+            <!-- CENTRAL UNIFICADA: substitui o antigo painel do proprietário -->
+            <div id="panel-proprietario" class="hidden space-y-6">
+                <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4">
+                    <div class="flex flex-wrap items-center gap-2 bg-gray-950 p-1 rounded-xl border border-gray-800">
+                        <button id="btnModeHost" type="button" onclick="switchMode('host')" class="px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 bg-indigo-600 text-white shadow-md">
+                            <i class="fa-solid fa-user-shield mr-1.5"></i> Anfitrião (HostMaster)
+                        </button>
+                        <button id="btnModeKeyRush" type="button" onclick="switchMode('keyrush')" class="px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 text-gray-400 hover:text-white">
+                            <i class="fa-solid fa-motorcycle mr-1.5"></i> KeyRush / Entregas
+                        </button>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button type="button" onclick="toggleAudioTest()" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-amber-400 rounded-lg text-xs font-medium border border-amber-500/30 transition">
+                            <i class="fa-solid fa-volume-high mr-1"></i> Testar Som
+                        </button>
+                        <button type="button" onclick="openAdvancedChartsModal()" class="px-3 py-2 bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs rounded-lg border border-rose-400 transition">
+                            <i class="fa-solid fa-chart-line mr-1"></i> Gráficos & Lucros
+                        </button>
+                        <button type="button" onclick="simulateIncomingCall()" class="px-3 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 text-gray-950 font-bold text-xs rounded-lg transition">
+                            <i class="fa-solid fa-bolt mr-1"></i> Simular Chamado
+                        </button>
+                    </div>
+                </div>
+                <div id="hostmasterSection" class="space-y-6">
+
+            <!-- CATÁLOGO DE SERVIÇOS VISÍVEL AO PROPRIETÁRIO -->
+            <section class="bg-gray-900 border border-emerald-500/25 rounded-2xl p-5 sm:p-6 space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                        <p class="text-[10px] uppercase tracking-[0.18em] text-emerald-400 font-black">Área do proprietário</p>
+                        <h2 class="text-xl font-black text-white mt-1"><i class="fa-solid fa-concierge-bell text-emerald-400 mr-2"></i>Solicitar um serviço</h2>
+                        <p class="text-xs text-gray-400 mt-1">Escolha uma opção abaixo. Os serviços e preços são definidos pelo Gestor Master.</p>
+                    </div>
+                    <label class="text-xs text-gray-300 font-semibold w-full sm:w-72">Imóvel para atendimento
+                        <select id="ownerServiceProperty" class="mt-1 w-full bg-gray-950 border border-gray-700 rounded-xl px-3 py-3 text-sm text-white outline-none focus:border-emerald-500"></select>
+                    </label>
+                </div>
+                <div id="ownerServiceCatalog" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3"></div>
+                <div class="bg-gray-950/70 border border-gray-800 rounded-xl p-3 flex items-start gap-2"><i class="fa-solid fa-circle-info text-emerald-400 mt-0.5"></i><p class="text-[11px] text-gray-400">Ao solicitar, você verá apenas a mensagem de busca. Quando um prestador aceitar, aparecerão o nome dele, a distância e a previsão de chegada.</p></div>
+                <div id="owner-service-tracking" class="hidden rounded-2xl border border-amber-500/30 bg-slate-950 p-4 space-y-3" aria-live="polite"></div>
+            </section>
+
+            <div class="flex overflow-x-auto gap-2 pb-2 border-b border-gray-800 text-sm font-medium">
+                <button onclick="switchHostTab('overview')" id="tab-overview" class="host-tab-btn px-4 py-2 rounded-lg bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 whitespace-nowrap">
+                    <i class="fa-solid fa-chart-pie mr-2"></i>Visão Geral & Métricas
+                </button>
+                <button onclick="switchHostTab('properties')" id="tab-properties" class="host-tab-btn px-4 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white whitespace-nowrap">
+                    <i class="fa-solid fa-building mr-2"></i>Imóveis & Links Airbnb
+                </button>
+                <button onclick="switchHostTab('dre')" id="tab-dre" class="host-tab-btn px-4 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white whitespace-nowrap">
+                    <i class="fa-solid fa-file-invoice-dollar mr-2"></i>DRE & Financeiro
+                </button>
+                <button onclick="switchHostTab('reports')" id="tab-reports" class="host-tab-btn px-4 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white whitespace-nowrap">
+                    <i class="fa-solid fa-print mr-2"></i>Relatórios Executivos
+                </button>
+            </div>
+
+            <!-- TAB 1: VISÃO GERAL -->
+            <div id="hostTabOverview" class="space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-gray-900 border border-gray-800 p-5 rounded-2xl relative overflow-hidden">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Receita Bruta (Mês)</p>
+                                <h3 class="text-2xl font-black text-white mt-1">R$ 0,00</h3>
+                                <p class="text-xs text-emerald-400 mt-2 font-medium"><i class="fa-solid fa-arrow-up mr-1"></i>Sem histórico para comparação</p>
+                            </div>
+                            <div class="p-3 bg-indigo-500/10 text-indigo-400 rounded-xl">
+                                <i class="fa-solid fa-sack-dollar text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-900 border border-gray-800 p-5 rounded-2xl relative overflow-hidden">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Taxa de Ocupação</p>
+                                <h3 class="text-2xl font-black text-white mt-1">0%</h3>
+                                <p class="text-xs text-emerald-400 mt-2 font-medium"><i class="fa-solid fa-calendar-check mr-1"></i>0 diárias reservadas</p>
+                            </div>
+                            <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-xl">
+                                <i class="fa-solid fa-percent text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-900 border border-gray-800 p-5 rounded-2xl relative overflow-hidden">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Custos KeyRush & Operação</p>
+                                <h3 class="text-2xl font-black text-white mt-1">R$ 0,00</h3>
+                                <p class="text-xs text-gray-400 mt-2 font-medium">0 serviços executados</p>
+                            </div>
+                            <div class="p-3 bg-amber-500/10 text-amber-400 rounded-xl">
+                                <i class="fa-solid fa-motorcycle text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-900 border border-gray-800 p-5 rounded-2xl relative overflow-hidden">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Lucro Líquido Real (DRE)</p>
+                                <h3 class="text-2xl font-black text-emerald-400 mt-1">R$ 0,00</h3>
+                                <p class="text-xs text-emerald-400 mt-2 font-medium">Margem operacional: —</p>
+                            </div>
+                            <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-xl">
+                                <i class="fa-solid fa-vault text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-gray-900 border border-gray-800 p-5 rounded-2xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-bold text-gray-200">Evolução Financeira (Receita x Despesas x Lucro)</h4>
+                            <span class="text-xs bg-gray-800 text-gray-400 px-3 py-1 rounded-full">Histórico financeiro</span>
+                        </div>
+                        <div class="h-64">
+                            <canvas id="overviewChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-900 border border-gray-800 p-5 rounded-2xl flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-gray-200 mb-4 flex items-center justify-between">
+                                <span><i class="fa-solid fa-clock text-amber-400 mr-2"></i>Próximas Entregas KeyRush</span>
+                                <span class="text-xs bg-amber-500/20 text-amber-400 px-2.5 py-0.5 rounded-full font-bold">Hoje</span>
+                            </h4>
+                            <div class="rounded-xl border border-dashed border-gray-700 bg-gray-950 p-6 text-center text-xs text-gray-400">
+                                Nenhuma entrega agendada.
+                            </div>
+                        </div>
+
+                        <button onclick="openNewDeliveryModal()" class="w-full mt-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-plus"></i> Agendar Entrega de Chave
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: IMÓVEIS & LINKS AIRBNB -->
+            <div id="hostTabProperties" class="hidden space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Portfólio de Imóveis Gerenciados</h3>
+                        <p class="text-xs text-gray-400">Acesse links diretos do Airbnb, altere status de limpeza e solicite entregador KeyRush.</p>
+                    </div>
+                    <button onclick="openAddPropertyModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2">
+                        <i class="fa-solid fa-building-circle-check"></i> Cadastrar Imóvel
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="propertiesGrid"></div>
+            </div>
+
+            <!-- TAB 3: DRE & FINANCEIRO -->
+            <div id="hostTabDRE" class="hidden space-y-6">
+                <div class="bg-gray-900 border border-gray-800 p-6 rounded-2xl space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-calculator text-indigo-400"></i> Demonstrativo do Resultado do Exercício (DRE)
+                            </h3>
+                            <p class="text-xs text-gray-400">Visão contábil detalhada: Receita Operacional, Custos Diretos e Margem Net.</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="openAddExpenseModal()" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-minus-circle"></i> Lançar Despesa
+                            </button>
+                            <button onclick="openAddIncomeModal()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-plus-circle"></i> Lançar Receita
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-gray-950 text-gray-400 uppercase text-xs font-semibold">
+                                <tr>
+                                    <th class="py-3 px-4">Rubrica Contábil</th>
+                                    <th class="py-3 px-4 text-right">Valor Acumulado (R$)</th>
+                                    <th class="py-3 px-4 text-right">% da Receita Bruta</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-800 text-gray-200" id="dreTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-900 border border-gray-800 p-5 rounded-2xl">
+                        <h4 class="font-bold text-gray-200 mb-4">Composição dos Custos Operacionais</h4>
+                        <div class="h-56 flex justify-center">
+                            <canvas id="costsDoughnutChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-900 border border-gray-800 p-5 rounded-2xl flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-gray-200 mb-3">Resumo Executivo do Período</h4>
+                            <div class="space-y-3 text-xs">
+                                <div class="flex justify-between p-2.5 bg-gray-950 rounded-lg border border-gray-800">
+                                    <span class="text-gray-400">Ticket Médio por Reserva:</span>
+                                    <span class="font-bold text-white">—</span>
+                                </div>
+                                <div class="flex justify-between p-2.5 bg-gray-950 rounded-lg border border-gray-800">
+                                    <span class="text-gray-400">Custo Médio de Limpeza:</span>
+                                    <span class="font-bold text-white">—</span>
+                                </div>
+                                <div class="flex justify-between p-2.5 bg-gray-950 rounded-lg border border-gray-800">
+                                    <span class="text-gray-400">Custo Médio KeyRush (Entrega):</span>
+                                    <span class="font-bold text-white">—</span>
+                                </div>
+                                <div class="flex justify-between p-2.5 bg-gray-950 rounded-lg border border-gray-800">
+                                    <span class="text-gray-400">Comissão de Plataformas (Média):</span>
+                                    <span class="font-bold text-amber-400">—</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-center">
+                            <p class="text-xs text-emerald-400 font-medium">Saúde Financeira Operacional Excelente! Margem líquida 12% acima do mercado.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: RELATÓRIOS -->
+            <div id="hostTabReports" class="hidden space-y-6">
+                <div class="bg-gray-900 border border-gray-800 p-6 rounded-2xl">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                        <div>
+                            <h3 class="text-xl font-bold text-white">Relatório Consolidado de Anfitrião</h3>
+                            <p class="text-xs text-gray-400">Gere resumos em PDF/Impressão para apresentação a investidores ou proprietários.</p>
+                        </div>
+                        <button onclick="window.print()" class="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white text-xs font-bold rounded-xl transition flex items-center gap-2 border border-gray-700">
+                            <i class="fa-solid fa-print"></i> Imprimir / Baixar PDF
+                        </button>
+                    </div>
+
+                    <div class="bg-gray-950 p-6 rounded-xl border border-gray-800 space-y-6">
+                        <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+                            <div>
+                                <h2 class="text-lg font-bold text-white">HostMaster & KeyRush - Relatório Operacional</h2>
+                                <p class="text-xs text-gray-400">Período: conforme os lançamentos registrados</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full font-bold">Sem dados registrados</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                            <div class="p-3 bg-gray-900 rounded-lg">
+                                <p class="text-xs text-gray-400">Total de Reservas</p>
+                                <p class="text-lg font-bold text-white">0</p>
+                            </div>
+                            <div class="p-3 bg-gray-900 rounded-lg">
+                                <p class="text-xs text-gray-400">Check-ins KeyRush</p>
+                                <p class="text-lg font-bold text-amber-400">0</p>
+                            </div>
+                            <div class="p-3 bg-gray-900 rounded-lg">
+                                <p class="text-xs text-gray-400">Avaliação Média</p>
+                                <p class="text-lg font-bold text-yellow-400">—</p>
+                            </div>
+                            <div class="p-3 bg-gray-900 rounded-lg">
+                                <p class="text-xs text-gray-400">Lucro Líquido Repassado</p>
+                                <p class="text-lg font-bold text-emerald-400">R$ 0,00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= MODO KEYRUSH ================= -->
+                <div id="keyrushSection" class="hidden space-y-6">
+            <div class="bg-gray-900 border border-gray-800 p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-full bg-amber-500/20 text-amber-500 border border-amber-500/40 flex items-center justify-center font-black text-xl shadow-lg">
+                        <i class="fa-solid fa-person-biking"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-bold text-white">Radar KeyRush Concierge</h3>
+                            <span class="bg-emerald-500/20 text-emerald-400 text-xs px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> GPS aguardando chamado
+                            </span>
+                        </div>
+                        <p class="text-xs text-gray-400">Raio de atendimento: <strong>12 km</strong> | Taxa média por corrida: <strong>—</strong></p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-3">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-xs text-gray-400">Ganhos registrados</p>
+                        <p class="text-lg font-black text-amber-400">R$ 0,00</p>
+                    </div>
+                    <button id="provider-test-alert-btn" onclick="simulateIncomingCall()" class="px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 text-gray-950 font-extrabold text-xs rounded-xl shadow-lg transition flex items-center gap-2">
+                        <i class="fa-solid fa-radar animate-spin"></i> Testar Alerta de Entrega
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <div class="lg:col-span-5 bg-gray-900 border border-gray-800 p-5 rounded-2xl space-y-4 min-h-[360px]">
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-2">
+                                <i class="fa-solid fa-map-location-dot"></i> Rota KeyRush
+                            </h4>
+                            <p class="text-xs text-gray-400 mt-1" id="keyrushRouteDestination">Selecione um chamado para traçar a rota</p>
+                        </div>
+                        <span class="text-[10px] px-2 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 whitespace-nowrap">
+                            <i class="fa-solid fa-location-crosshairs mr-1"></i> GPS
+                        </span>
+                    </div>
+
+                    <div class="relative w-full h-56 sm:h-64 rounded-xl overflow-hidden border border-gray-700 bg-gray-950">
+                        <iframe
+                            id="keyrushGoogleMap"
+                            title="Mini mapa Google Maps - rota KeyRush"
+                            src="about:blank"
+                            class="w-full h-full border-0"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-gray-950 border border-gray-800 rounded-xl p-3">
+                            <p class="text-[10px] text-gray-400 uppercase font-bold">Distância</p>
+                            <p id="keyrushDistance" class="text-xl font-black text-white mt-1">-- km</p>
+                        </div>
+                        <div class="bg-gray-950 border border-gray-800 rounded-xl p-3">
+                            <p class="text-[10px] text-gray-400 uppercase font-bold">Tempo estimado</p>
+                            <p id="keyrushEta" class="text-xl font-black text-amber-400 mt-1">-- min</p>
+                        </div>
+                    </div>
+
+                    <p id="keyrushGpsStatus" class="text-[11px] text-gray-400" aria-live="polite">
+                        Ative o GPS para calcular a distância e o tempo até o imóvel.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <button type="button" onclick="updateKeyRushLocation()" class="flex-1 py-2.5 bg-amber-500 hover:bg-amber-400 text-gray-950 font-black text-xs rounded-xl transition">
+                            <i class="fa-solid fa-location-crosshairs mr-1"></i> Ativar / Atualizar GPS
+                        </button>
+                        <a id="keyrushGoogleMapsLink" href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer"
+                           class="flex-1 py-2.5 text-center bg-gray-800 hover:bg-gray-700 text-white font-bold text-xs rounded-xl border border-gray-700 transition">
+                            <i class="fa-brands fa-google mr-1"></i> Abrir rota no Maps
+                        </a>
+                    </div>
+                    <p class="text-[10px] text-gray-500">
+                        Distância e ETA calculadas por serviço de rotas viárias; Google Maps usado para o mapa e a navegação completa.
+                    </p>
+                </div>
+
+<div class="lg:col-span-7 space-y-4">
+                    <h4 class="font-bold text-gray-200 flex items-center justify-between">
+                        <span><i class="fa-solid fa-list-check text-amber-400 mr-2"></i>Fila de Missões KeyRush</span>
+                        <span class="text-xs bg-gray-800 text-gray-300 px-2.5 py-1 rounded-full" id="missionCount">0 Disponíveis</span>
+                    </h4>
+                    <div class="space-y-3" id="keyrushMissionsList"></div>
+                </div>
+            </div>
+        </div>
+            </div>
+
+
+            <!-- 3. PAINEL DO PRESTADOR (KEYRUSH) -->
+            <div id="panel-prestador" class="hidden space-y-6 max-w-2xl mx-auto w-full">
+                <section class="grid grid-cols-3 gap-3">
+                    <div class="glass-card p-4 rounded-2xl border-l-4 border-l-amber-500 text-center">
+                        <span class="text-[10px] font-bold uppercase text-slate-400 block">Ganhos acumulados</span>
+                        <h3 id="provider-stat-ganhos" class="text-lg font-black text-amber-400 font-mono">R$ 0,00</h3>
+                    </div>
+                    <div class="glass-card p-4 rounded-2xl border-l-4 border-l-indigo-500 text-center">
+                        <span class="text-[10px] font-bold uppercase text-slate-400 block">Em Execução</span>
+                        <h3 id="provider-stat-ativos" class="text-lg font-black text-indigo-400 font-mono">0</h3>
+                    </div>
+                    <div class="glass-card p-4 rounded-2xl border-l-4 border-l-emerald-500 text-center">
+                        <span class="text-[10px] font-bold uppercase text-slate-400 block">Avaliação</span>
+                        <h3 id="provider-stat-nota" class="text-lg font-black text-emerald-400 font-mono">—</h3>
+                    </div>
+                </section>
+
+                <div id="provider-dynamic-area" class="space-y-4">
+                    <div class="bg-cardBg border border-borderClr rounded-2xl p-8 text-center space-y-4">
+                        <div class="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl mx-auto pulse-live">
+                            <i class="fa-solid fa-satellite-dish"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-base font-bold text-white">Radar KeyRush Ativo</h2>
+                            <p class="text-xs text-slate-400">Aguardando novas missões de entrega de chaves ou manutenção...</p>
+                        </div>
+                    </div>
+                </div>
+                <section class="mt-6 rounded-2xl border border-emerald-500/20 bg-slate-900/80 p-5 space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"><div><p class="text-[10px] uppercase tracking-[.18em] text-emerald-300 font-black">Financeiro do prestador</p><h3 class="text-lg font-black text-white mt-1"><i class="fa-solid fa-file-invoice-dollar text-emerald-400 mr-2"></i>Relatório de serviços realizados</h3><p class="text-[11px] text-slate-400 mt-1">Somente serviços marcados como concluídos entram neste relatório.</p></div><button type="button" onclick="renderPrestadorReport(); window.print()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white"><i class="fa-solid fa-print mr-1"></i>Imprimir relatório</button></div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3"><div class="rounded-xl bg-slate-950 p-4 border border-slate-800"><span class="text-[10px] text-slate-400 uppercase">Serviços concluídos</span><b id="provider-report-count" class="block text-2xl text-white mt-1">0</b></div><div class="rounded-xl bg-slate-950 p-4 border border-slate-800"><span class="text-[10px] text-slate-400 uppercase">Total bruto</span><b id="provider-report-total" class="block text-xl text-emerald-300 mt-1">R$ 0,00</b></div><div class="rounded-xl bg-slate-950 p-4 border border-slate-800"><span class="text-[10px] text-slate-400 uppercase">Ticket médio</span><b id="provider-report-average" class="block text-xl text-amber-300 mt-1">R$ 0,00</b></div></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left text-xs"><thead class="text-slate-400 border-b border-slate-700"><tr><th class="py-3 pr-3">Data</th><th class="py-3 pr-3">Serviço / imóvel</th><th class="py-3 pr-3">Solicitante</th><th class="py-3 text-right">Valor</th></tr></thead><tbody id="provider-report-list" class="divide-y divide-slate-800"><tr><td colspan="4" class="py-5 text-center text-slate-500">Nenhum serviço concluído.</td></tr></tbody></table></div>
+                </section>
+            </div>
+
+        
+
+        <!-- MODAL DE GRÁFICOS & LUCROS AVANÇADOS -->
+    <div id="advancedChartsModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-gray-900 border-2 border-rose-500/50 rounded-3xl max-w-4xl w-full p-6 space-y-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-rose-600/20 text-rose-500 flex items-center justify-center font-bold text-lg border border-rose-500/30">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Central de Gráficos & Lucros Avançados</h3>
+                        <p class="text-xs text-gray-400">Análise de rentabilidade por imóvel, upsell de concierge e margens net.</p>
+                    </div>
+                </div>
+                <button onclick="closeModal('advancedChartsModal')" class="text-gray-400 hover:text-white p-2 rounded-lg bg-gray-800"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-gray-950 p-4 rounded-2xl border border-gray-800">
+                    <h4 class="text-xs font-bold text-gray-300 mb-3"><i class="fa-solid fa-chart-column text-amber-400 mr-1.5"></i> Desempenho Trimestral de Lucratividade</h4>
+                    <div class="h-60">
+                        <canvas id="modalProfitBarChart"></canvas>
+                    </div>
+                </div>
+                <div class="bg-gray-950 p-4 rounded-2xl border border-gray-800">
+                    <h4 class="text-xs font-bold text-gray-300 mb-3"><i class="fa-solid fa-chart-pie text-indigo-400 mr-1.5"></i> Distribuição de Receitas e Upsell</h4>
+                    <div class="h-60 flex justify-center">
+                        <canvas id="modalRevenuePieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-950 p-4 rounded-2xl border border-gray-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+                <div>
+                    <p class="text-gray-400">Resultado financeiro registrado:</p>
+                    <p class="text-xl font-black text-emerald-400 font-mono">R$ 0,00</p>
+                </div>
+                <button onclick="closeModal('advancedChartsModal')" class="px-6 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl transition shadow-lg">Fechar Painel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CHAMADO KEYRUSH -->
+    <div id="incomingCallModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-gray-900 border-2 border-amber-500/60 rounded-3xl max-w-md w-full p-6 space-y-6 shadow-2xl">
+            <div class="text-center space-y-2">
+                <div class="w-16 h-16 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center mx-auto border-2 border-amber-500 text-2xl animate-pulse">
+                    <i class="fa-solid fa-bell-exclamation"></i>
+                </div>
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-widest">⚡ NOVO CHAMADO KEYRUSH DETECTADO!</span>
+                <h3 class="text-xl font-black text-white" id="modalPropertyTitle">Novo chamado</h3>
+                <p class="text-xs text-gray-300" id="modalGuestDetails">Os dados do atendimento aparecerão aqui.</p>
+            </div>
+
+            <div class="bg-gray-950 p-4 rounded-2xl border border-gray-800 text-center space-y-1">
+                <p class="text-xs text-gray-400">Tempo restante para aceitar:</p>
+                <div class="text-3xl font-black text-amber-400 font-mono" id="acceptTimer">00:30</div>
+                <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden mt-2">
+                    <div id="acceptProgressBar" class="bg-amber-500 h-full w-full transition-all duration-1000"></div>
+                </div>
+            </div>
+
+            <div class="space-y-2 text-xs text-gray-300 bg-gray-950 p-3 rounded-xl border border-gray-800">
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Serviço:</span>
+                    <span id="modalServiceType" class="font-bold text-white">Serviço</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Valor do Passe (Ganhos):</span>
+                    <span id="modalMissionFee" class="font-extrabold text-emerald-400 text-sm">R$ 0,00</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="declineMission()" class="py-3 bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold rounded-xl text-xs transition">Recusar</button>
+                <button onclick="acceptMission()" class="py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 text-gray-950 font-black rounded-xl text-xs shadow-lg transition">ACEITAR MISSÃO ⚡</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE NOVO IMÓVEL -->
+    <div id="addPropertyModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl max-w-lg w-full p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                <h3 class="text-lg font-bold text-white">Cadastrar Novo Imóvel</h3>
+                <button onclick="closeModal('addPropertyModal')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="formProperty" onsubmit="saveProperty(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block text-gray-400 mb-1">Nome da Propriedade</label>
+                    <input type="text" id="propTitle" required placeholder="Ex: Penthouse Cobertura Jardins" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2.5 text-white focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-400 mb-1">Endereço Completo</label>
+                    <input type="text" id="propAddress" required placeholder="Endereço completo do imóvel" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2.5 text-white focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-400 mb-1">Link Direto do Anúncio (Airbnb)</label>
+                    <input type="url" id="propAirbnbUrl" required placeholder="https://www.airbnb.com.br/rooms/12345678" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2.5 text-white focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-gray-400 mb-1">Link do calendário Airbnb (iCal / .ics)</label>
+                    <input type="url" id="propAirbnbIcalUrl" placeholder="Cole aqui o link de exportação do calendário (.ics)" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2.5 text-white focus:outline-none">
+                    <p class="text-[10px] text-slate-500 mt-1">No Airbnb: Calendário → Disponibilidade → Conectar calendários → Exportar calendário. O link do anúncio não substitui o link iCal.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-gray-400 mb-1">Diária Média (R$)</label>
+                        <input type="number" id="propDaily" required placeholder="Valor da diária" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2.5 text-white focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 mb-1">Status Inicial</label>
+                        <select id="propStatus" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2.5 text-white focus:outline-none">
+                            <option value="Disponível">Disponível</option>
+                            <option value="Ocupado">Ocupado</option>
+                            <option value="Limpeza Pendente">Limpeza Pendente</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="pt-3 flex justify-end gap-2">
+                    <button type="button" onclick="closeModal('addPropertyModal')" class="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700">Salvar Propriedade</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- CALENDÁRIO DO IMÓVEL: BLOQUEIOS MANUAIS E DATAS IMPORTADAS -->
+    <div id="propertyCalendarModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] hidden items-center justify-center p-3 sm:p-5">
+        <div class="bg-gray-900 border border-gray-700 rounded-2xl w-full max-w-4xl max-h-[92vh] overflow-y-auto p-5 sm:p-6 space-y-5">
+            <div class="flex items-start justify-between gap-3 border-b border-gray-800 pb-4">
+                <div><p class="text-[10px] uppercase tracking-widest text-emerald-400 font-black">Disponibilidade do imóvel</p><h3 id="propertyCalendarTitle" class="text-xl font-black text-white mt-1">Calendário do imóvel</h3><p class="text-xs text-gray-400 mt-1">Consulte datas ocupadas pelo Airbnb e bloqueie períodos manualmente.</p></div>
+                <button type="button" onclick="closePropertyCalendar()" class="text-gray-400 hover:text-white p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-[1.15fr_.85fr] gap-5">
+                <section class="space-y-3">
+                    <div class="flex items-center justify-between gap-2"><h4 class="font-bold text-white text-sm">Calendário</h4><input id="calendarMonth" type="month" class="bg-gray-950 border border-gray-700 rounded-lg px-3 py-2 text-xs text-white" onchange="renderPropertyCalendar()"></div>
+                    <div class="grid grid-cols-7 gap-1 text-center text-[10px] text-gray-500 font-bold"><span>DOM</span><span>SEG</span><span>TER</span><span>QUA</span><span>QUI</span><span>SEX</span><span>SÁB</span></div>
+                    <div id="propertyCalendarGrid" class="grid grid-cols-7 gap-1"></div>
+                    <div class="flex flex-wrap gap-3 text-[10px] text-gray-400"><span><i class="fa-solid fa-circle text-rose-400 mr-1"></i>Ocupado Airbnb</span><span><i class="fa-solid fa-circle text-sky-400 mr-1"></i>Bloqueio manual</span><span><i class="fa-solid fa-circle text-gray-600 mr-1"></i>Livre</span></div>
+                </section>
+                <section class="space-y-4">
+                    <div class="rounded-xl border border-slate-700 bg-slate-950 p-4 space-y-3">
+                        <h4 class="text-sm font-black text-white"><i class="fa-solid fa-calendar-xmark text-sky-400 mr-2"></i>Bloquear datas manualmente</h4>
+                        <div><label class="block text-[10px] text-gray-400 mb-1">Data inicial</label><input id="manualBlockStart" type="date" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-xs text-white"></div>
+                        <div><label class="block text-[10px] text-gray-400 mb-1">Data final (inclusive)</label><input id="manualBlockEnd" type="date" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-xs text-white"></div>
+                        <div><label class="block text-[10px] text-gray-400 mb-1">Motivo (opcional)</label><input id="manualBlockReason" type="text" maxlength="80" placeholder="Uso próprio, manutenção..." class="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-xs text-white"></div>
+                        <button type="button" onclick="addManualCalendarBlock()" class="w-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-xs rounded-lg py-3"><i class="fa-solid fa-lock mr-1"></i>Bloquear período</button>
+                    </div>
+                    <div class="rounded-xl border border-rose-500/20 bg-rose-950/10 p-4 space-y-2">
+                        <h4 class="text-sm font-black text-white"><i class="fa-brands fa-airbnb text-rose-400 mr-2"></i>Sincronização Airbnb</h4>
+                        <p class="text-[11px] text-gray-400">Cole o link iCal (.ics) exportado pelo Airbnb. O servidor Netlify consulta esse link e atualiza as reservas automaticamente a cada três horas.</p>
+                        <input id="calendarIcalUrl" type="url" placeholder="https://www.airbnb.com/calendar/ical/...ics" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-3 py-2 text-xs text-white">
+                        <button type="button" onclick="savePropertyIcalUrl()" class="w-full bg-rose-600 hover:bg-rose-500 text-white rounded-lg py-2.5 text-xs font-black">Salvar e sincronizar agora</button>
+                        <p id="airbnbCalendarSyncStatus" class="text-[10px] text-amber-300">Aguardando integração segura do calendário.</p>
+                        <button type="button" onclick="showAirbnbSyncSetupHelp()" class="w-full border border-rose-500/30 text-rose-300 hover:bg-rose-500/10 rounded-lg py-2.5 text-xs font-bold">Como conectar o iCal</button>
+                    </div>
+                </section>
+            </div>
+            <section class="border-t border-gray-800 pt-4 space-y-2"><h4 class="text-sm font-bold text-white">Bloqueios manuais</h4><div id="manualCalendarBlockList" class="space-y-2 text-xs text-gray-300"></div></section>
+            <div class="flex justify-end"><button type="button" onclick="closePropertyCalendar()" class="px-5 py-2.5 bg-gray-800 hover:bg-gray-700 rounded-lg text-xs text-white font-bold">Fechar calendário</button></div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
+        </main>
+    </div>
+
+    <!-- SCRIPT DE INTERAÇÕES E GRÁFICOS -->
+    <script>
+        let perfilAutenticado = null;
+        let currentUser = null;
+        let currentUserName = '';
+        let prestadorOnline = false;
+        let ganhosPrestador = 0;
+        let chamadaPendente = null;
+
+        let despesasLista = [];
+        let prestadorAceitante = null;
+
+        function selecionarPerfilLogin(tipo) {
+            perfilAutenticado = tipo;
+            const emailInput = document.getElementById('login-email-input');
+            const label = document.getElementById('login-active-label');
+            const roles = ['gestor', 'proprietario', 'prestador'];
+            roles.forEach(role => {
+                const button = document.getElementById(`btn-select-${role}`);
+                if (!button) return;
+                button.className = 'p-3 rounded-xl bg-slate-950 border border-slate-700 text-center transition';
+            });
+            const selected = document.getElementById(`btn-select-${tipo}`);
+            if (selected) selected.className = `p-3 rounded-xl border-2 text-center transition ${tipo === 'gestor' ? 'bg-slate-800 border-amber-500' : tipo === 'proprietario' ? 'bg-slate-800 border-emerald-500' : 'bg-slate-800 border-teal-500'}`;
+            if (tipo === 'gestor') { emailInput.value = ''; label.innerText = 'Acesso Gestor Master'; }
+            else if (tipo === 'proprietario') { emailInput.value = ''; label.innerText = 'Acesso do Proprietário'; }
+            else { emailInput.value = ''; label.innerText = 'Acesso do Prestador KeyRush'; }
+        }
+
+        let registeredAccounts = [];
+
+        function abrirCadastro(tipo) {
+            document.getElementById('register-role').value = tipo;
+            document.getElementById('register-title').textContent = tipo === 'proprietario' ? 'Cadastro de proprietário' : 'Cadastro de prestador';
+            document.getElementById('register-description').textContent = tipo === 'proprietario' ? 'Crie seu acesso para acompanhar imóveis e solicitar serviços.' : 'Crie seu acesso para receber chamados e acompanhar seus ganhos.';
+            document.getElementById('register-icon').className = tipo === 'proprietario' ? 'fa-solid fa-house-chimney' : 'fa-solid fa-toolbox';
+            document.getElementById('register-modal').classList.remove('hidden');
+        }
+        function fecharCadastro() { document.getElementById('register-modal').classList.add('hidden'); }
+
+        function registrarConta(event) { event.preventDefault(); alert('Aguarde a conexão segura do Supabase para criar sua conta.'); }
+
+        function realizarLoginEfetivo(e) { e.preventDefault(); alert('Aguarde a conexão segura do Supabase para entrar.'); }
+
+        function entrarNoSistema() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('main-ecosystem').classList.remove('hidden');
+            configurarInterfaceLogada();
+        }
+
+        function fazerLogout() {
+            if (typeof stopProviderLiveTracking === 'function') stopProviderLiveTracking();
+            document.getElementById('main-ecosystem').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
+            perfilAutenticado = null; currentUser = null; currentUserName = '';
+            selecionarPerfilLogin('gestor');
+        }
+
+        function configurarInterfaceLogada() {
+            const navTabs = document.getElementById('dynamic-nav-tabs');
+            const onlineBadge = document.getElementById('topbar-status-radar');
+            const headerBadge = document.getElementById('header-badge-role');
+            const btnGraficosMaster = document.getElementById('container-btn-graficos-master');
+            const requestServiceButton = document.getElementById('topbar-request-service-btn');
+            const providerTestButton = document.getElementById('provider-test-alert-btn');
+            if (requestServiceButton) requestServiceButton.classList.toggle('hidden', perfilAutenticado !== 'gestor');
+            if (providerTestButton) providerTestButton.classList.toggle('hidden', perfilAutenticado !== 'gestor');
+
+            document.getElementById('panel-gestor').classList.add('hidden');
+            document.getElementById('panel-proprietario').classList.add('hidden');
+            document.getElementById('panel-prestador').classList.add('hidden');
+            document.getElementById('panel-servicos-master').classList.add('hidden');
+            onlineBadge.classList.add('hidden');
+            navTabs.innerHTML = '';
+            btnGraficosMaster.classList.add('hidden');
+
+            if (perfilAutenticado === 'gestor') {
+                headerBadge.innerText = "GESTOR MASTER";
+                headerBadge.className = "text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2.5 py-0.5 rounded-full font-mono font-bold";
+                document.getElementById('panel-gestor').classList.remove('hidden');
+                onlineBadge.classList.remove('hidden');
+                onlineBadge.style.display = "flex";
+                btnGraficosMaster.classList.remove('hidden');
+
+                navTabs.innerHTML = `
+                    <button type="button" onclick="switchMasterTab('gestor')" id="tab-btn-gestor" class="py-3 px-1 font-bold text-white flex items-center gap-2 border-b-2 border-amber-500">
+                        <i class="fa-solid fa-chart-pie"></i> Visão Geral & DRE
+                    </button>
+                    <button type="button" onclick="switchMasterTab('proprietario')" id="tab-btn-proprietario" class="py-3 px-1 flex items-center gap-2 text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-house-chimney"></i> Central Unificada HostMaster & KeyRush
+                    </button>
+                    <button type="button" onclick="switchMasterTab('prestador')" id="tab-btn-prestador" class="py-3 px-1 flex items-center gap-2 text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-user-gear"></i> App Entregador KeyRush (Radar)
+                    </button>
+                    <button type="button" onclick="switchMasterTab('servicos')" id="tab-btn-servicos" class="py-3 px-1 flex items-center gap-2 text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-tags"></i> Serviços & Valores
+                    </button>
+                `;
+                atualizarTabelaDespesas();
+                renderPrestadorArea();
+
+            } else if (perfilAutenticado === 'proprietario') {
+                headerBadge.innerText = `PROPRIETÁRIO • ${currentUserName || 'CONTA'}`;
+                headerBadge.className = "text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-mono font-bold";
+                document.getElementById('panel-proprietario').classList.remove('hidden');
+                switchMode('host');
+
+                navTabs.innerHTML = `
+                    <button type="button" class="py-3 px-1 font-bold text-white flex items-center gap-2 border-b-2 border-emerald-500">
+                        <i class="fa-solid fa-house-chimney"></i> Central Unificada HostMaster & KeyRush
+                    </button>
+                `;
+                atualizarTabelaDespesas();
+                atualizarTelaEsperaProprietario();
+
+            } else if (perfilAutenticado === 'prestador') {
+                headerBadge.innerText = `PRESTADOR • ${currentUserName || 'KEYRUSH'}`;
+                headerBadge.className = "text-[10px] bg-teal-500/20 text-teal-300 border border-teal-500/30 px-2.5 py-0.5 rounded-full font-mono font-bold";
+                document.getElementById('panel-prestador').classList.remove('hidden');
+                onlineBadge.classList.remove('hidden');
+                onlineBadge.style.display = "flex";
+
+                navTabs.innerHTML = `
+                    <button type="button" class="py-3 px-1 font-bold text-white flex items-center gap-2 border-b-2 border-teal-500">
+                        <i class="fa-solid fa-user-gear"></i> Radar de Serviços KeyRush
+                    </button>
+                `;
+                renderPrestadorArea();
+            }
+        }
+
+        function switchMasterTab(sub) {
+            const buttons = document.querySelectorAll('#dynamic-nav-tabs button');
+            buttons.forEach(b => b.className = "py-3 px-1 flex items-center gap-2 text-slate-400 hover:text-white");
+
+            document.getElementById('panel-gestor').classList.add('hidden');
+            document.getElementById('panel-proprietario').classList.add('hidden');
+            document.getElementById('panel-prestador').classList.add('hidden');
+            document.getElementById('panel-servicos-master').classList.add('hidden');
+
+            if (sub === 'gestor') {
+                document.getElementById('panel-gestor').classList.remove('hidden');
+                document.getElementById('tab-btn-gestor').className = "py-3 px-1 font-bold text-white flex items-center gap-2 border-b-2 border-amber-500";
+            } else if (sub === 'proprietario') {
+                document.getElementById('panel-proprietario').classList.remove('hidden');
+                switchMode('host');
+                document.getElementById('tab-btn-proprietario').className = "py-3 px-1 font-bold text-white flex items-center gap-2 border-b-2 border-amber-500";
+                atualizarTabelaDespesas();
+                atualizarTelaEsperaProprietario();
+            } else if (sub === 'prestador') {
+                document.getElementById('panel-prestador').classList.remove('hidden');
+                document.getElementById('tab-btn-prestador').className = "py-3 px-1 font-bold text-white flex items-center gap-2 border-b-2 border-teal-500";
+                renderPrestadorArea();
+            } else if (sub === 'servicos') {
+                document.getElementById('panel-servicos-master').classList.remove('hidden');
+                document.getElementById('tab-btn-servicos').className = "py-3 px-1 font-bold text-white flex items-center gap-2 border-b-2 border-amber-500";
+                renderServicesAdmin();
+            }
+        }
+
+        // FUNÇÃO PARA ABRIR O MODAL DE GRÁFICOS AVANÇADOS DO GESTOR MASTER
+        function abrirModalGraficosMaster() {
+            const modal = document.getElementById('universal-modal');
+            const body = document.getElementById('modal-content-body');
+            modal.classList.remove('hidden');
+
+            body.innerHTML = `
+                <div class="space-y-6">
+                    <div class="flex items-center justify-between border-b border-borderClr pb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-rose-600/20 text-rose-500 border border-rose-500/40 flex items-center justify-center text-xl font-bold">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-black text-white">Gráficos Analíticos & DRE Avançado</h3>
+                                <p class="text-xs text-slate-400">Visão consolidada de desempenho financeiro, margens e custos operacionais.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grid de Gráficos Chart.js -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-slate-900 border border-borderClr p-4 rounded-2xl">
+                            <h4 class="text-xs font-bold text-white mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-chart-column text-amber-400"></i> Evolução de faturamento e lucro
+                            </h4>
+                            <div class="h-60">
+                                <canvas id="modalOverviewChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="bg-slate-900 border border-borderClr p-4 rounded-2xl">
+                            <h4 class="text-xs font-bold text-white mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-chart-pie text-rose-400"></i> Composição de Custos & Repasses
+                            </h4>
+                            <div class="h-60 flex justify-center">
+                                <canvas id="modalCostsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-slate-900 border border-borderClr rounded-2xl flex justify-between items-center text-xs">
+                        <div>
+                            <span class="text-slate-400 block uppercase font-mono">Margem Operacional Média</span>
+                            <span class="text-emerald-400 font-bold text-sm">Aguardando dados financeiros</span>
+                        </div>
+                        <button type="button" onclick="fecharModalUniversal()" class="px-5 py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-black rounded-xl text-xs transition shadow-lg">Fechar Gráficos</button>
+                    </div>
+                </div>
+            `;
+
+            // Inicializar os gráficos após o modal estar visível
+            setTimeout(() => {
+                const ctx1 = document.getElementById('modalOverviewChart').getContext('2d');
+                new Chart(ctx1, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Sem dados'],
+                        datasets: [
+                            { label: 'Faturamento Bruto', data: [0], backgroundColor: '#f59e0b', borderRadius: 6 },
+                            { label: 'Lucro Líquido', data: [0], backgroundColor: '#10b981', borderRadius: 6 }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { labels: { color: '#94a3b8', font: { size: 10 } } } },
+                        scales: {
+                            x: { ticks: { color: '#94a3b8' }, grid: { display: false } },
+                            y: { ticks: { color: '#94a3b8' }, grid: { color: '#334155' } }
+                        }
+                    }
+                });
+
+                const ctx2 = document.getElementById('modalCostsChart').getContext('2d');
+                new Chart(ctx2, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Comissões Airbnb', 'KeyRush Entregas', 'Limpeza & Faxina', 'Manutenção'],
+                        datasets: [{
+                            data: [0, 0, 0, 0],
+                            backgroundColor: ['#f43f5e', '#f59e0b', '#3b82f6', '#8b5cf6'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 10 } } } }
+                    }
+                });
+            }, 100);
+        }
+
+        function abrirDetalhesImovelGestor(nomeImovel, bruto, comissaoCoHost, repasseDono, airbnbLink) {
+            const modal = document.getElementById('universal-modal');
+            const body = document.getElementById('modal-content-body');
+            modal.classList.remove('hidden');
+
+            const spreadLimpeza = 0;
+            const lucroTotalGestor = comissaoCoHost + spreadLimpeza;
+
+            body.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between border-b border-borderClr pb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl font-bold">
+                                <i class="fa-solid fa-house-chimney-user"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-bold text-white">${nomeImovel}</h3>
+                                <p class="text-xs text-slate-400">Demonstrativo Detalhado de Lucros e Serviços</p>
+                            </div>
+                        </div>
+                        <a href="${airbnbLink}" target="_blank" class="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-lg">
+                            <i class="fa-brands fa-airbnb"></i> Abrir Airbnb
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-xs font-mono">
+                        <div class="p-3 bg-slate-900 border border-borderClr rounded-xl space-y-1">
+                            <span class="text-slate-400 text-[10px] uppercase block">Faturamento Bruto</span>
+                            <span class="text-emerald-400 font-bold text-sm">${formatMoney(bruto)}</span>
+                        </div>
+                        <div class="p-3 bg-slate-900 border border-borderClr rounded-xl space-y-1">
+                            <span class="text-slate-400 text-[10px] uppercase block">Repasse Líquido Dono</span>
+                            <span class="text-rose-400 font-bold text-sm">${formatMoney(repasseDono)}</span>
+                        </div>
+                        <div class="p-3 bg-slate-900 border border-amber-500/30 rounded-xl space-y-1">
+                            <span class="text-amber-400 text-[10px] uppercase block">Sua Comissão Co-Host</span>
+                            <span class="text-amber-400 font-bold text-sm">${formatMoney(comissaoCoHost)}</span>
+                        </div>
+                        <div class="p-3 bg-slate-900 border border-teal-500/30 rounded-xl space-y-1">
+                            <span class="text-teal-400 text-[10px] uppercase block">Spread de Limpeza</span>
+                            <span class="text-teal-400 font-bold text-sm">${formatMoney(spreadLimpeza)}</span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl space-y-1">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="font-bold text-white">Lucro Total do Gestor com este Imóvel:</span>
+                            <span class="font-mono text-base font-black text-amber-400">${formatMoney(lucroTotalGestor)}</span>
+                        </div>
+                        <p class="text-[11px] text-slate-300">Inclui comissão de gestão + margem nas faxinas e entregas KeyRush.</p>
+                    </div>
+
+                    <div class="pt-2 flex gap-2">
+                        <button type="button" onclick="fecharModalUniversal()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs transition">Fechar</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function abrirModalAdicionarDespesa() {
+            const modal = document.getElementById('universal-modal');
+            const body = document.getElementById('modal-content-body');
+            modal.classList.remove('hidden');
+
+            body.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3 border-b border-borderClr pb-3">
+                        <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-receipt"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white">Adicionar Nova Despesa da Casa</h3>
+                            <p class="text-xs text-slate-400">Insira os dados do gasto para o cálculo automático do repasse líquido.</p>
+                        </div>
+                    </div>
+
+                    <form onsubmit="salvarNovaDespesa(event)" class="space-y-3 text-xs">
+                        <div>
+                            <label class="block text-slate-400 mb-1 font-bold">Descrição da Despesa</label>
+                            <input type="text" id="nova-desc" required placeholder="Ex: Manutenção Ar Condicionado" class="w-full bg-inputBg border border-borderClr rounded-xl py-2.5 px-3 text-white focus:outline-none focus:border-amber-500">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-slate-400 mb-1 font-bold">Categoria</label>
+                                <select id="nova-cat" class="w-full bg-inputBg border border-borderClr rounded-xl py-2.5 px-3 text-white focus:outline-none focus:border-amber-500">
+                                    <option>Manutenção</option>
+                                    <option>Serviços / Contas</option>
+                                    <option>Limpeza Extra</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 mb-1 font-bold">Valor (R$)</label>
+                                <input type="number" step="0.01" id="nova-valor" required placeholder="Informe o valor" class="w-full bg-inputBg border border-borderClr rounded-xl py-2.5 px-3 text-white focus:outline-none focus:border-amber-500 font-mono">
+                            </div>
+                        </div>
+                        <div class="pt-2 flex gap-2">
+                            <button type="submit" class="flex-1 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-xs uppercase tracking-wider transition">Salvar Despesa</button>
+                            <button type="button" onclick="fecharModalUniversal()" class="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs transition">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+        }
+
+        function salvarNovaDespesa(e) {
+            e.preventDefault();
+            const desc = document.getElementById('nova-desc').value;
+            const cat = document.getElementById('nova-cat').value;
+            const val = parseFloat(document.getElementById('nova-valor').value);
+            const hoje = new Date().toLocaleDateString('pt-BR');
+
+            despesasLista.push({data: hoje, descricao: desc, categoria: cat, valor: val});
+            atualizarTabelaDespesas();
+            fecharModalUniversal();
+        }
+
+        function atualizarTabelaDespesas() {
+            const corpo = document.getElementById('tabela-despesas-corpo');
+            if(!corpo) return;
+
+            let html = '';
+            let totalDespesas = 0;
+
+            despesasLista.forEach(d => {
+                totalDespesas += d.valor;
+                html += `
+                    <tr>
+                        <td class="py-3 px-2">${d.data}</td>
+                        <td class="py-3 px-2 font-bold text-white">${d.descricao}</td>
+                        <td class="py-3 px-2 text-amber-400">${d.categoria}</td>
+                        <td class="py-3 px-2 text-right text-rose-400 font-bold">${formatMoney(d.valor)}</td>
+                    </tr>
+                `;
+            });
+
+            corpo.innerHTML = html || '<tr><td colspan="4" class="py-5 text-center text-slate-500">Nenhuma despesa lançada.</td></tr>';
+
+            const cardDespesas = document.getElementById('proprietario-card-despesas');
+            const cardLiquido = document.getElementById('proprietario-card-liquido');
+            
+            if(cardDespesas) cardDespesas.innerText = formatMoney(totalDespesas);
+            
+            let liquido = -totalDespesas;
+            if(cardLiquido) cardLiquido.innerText = formatMoney(liquido);
+        }
+
+        function gerarRelatorioPDF() { alert("Gerando Relatório Executivo em PDF..."); }
+        function gerarRelatorioExcel() { alert("Gerando Planilha Excel (.xlsx)..."); }
+        function enviarRelatorioWhatsApp() { alert("Resumo financeiro enviado no WhatsApp!"); }
+
+        function fecharModalUniversal() { document.getElementById('universal-modal').classList.add('hidden'); }
+
+        function dispararNovaMissaoModal() {
+            if (perfilAutenticado !== 'gestor') {
+                showToast('Somente o Proprietário ou o Gestor Master pode solicitar serviços.', 'error');
+                return;
+            }
+            switchMasterTab('proprietario');
+            showToast('Selecione um imóvel e um serviço cadastrado no catálogo para abrir um chamado.', 'info');
+        }
+
+        function solicitarServicoMaster(tipo, valor) {
+            if (perfilAutenticado !== 'gestor') {
+                showToast('Somente o Gestor Master pode usar esta solicitação administrativa.', 'error');
+                return;
+            }
+            const property = propertiesState[0] || null;
+            const missionId = `M${Date.now()}`;
+            const mission = {
+                id: missionId,
+                property: property ? property.title : 'Imóvel não informado',
+                guest: 'Solicitado pelo Gestor Master',
+                time: 'Solicitado agora',
+                fee: Number(valor) || 0,
+                status: 'Pendente',
+                type: tipo,
+                address: property ? property.address : '',
+                origin: 'owner_catalog',
+                ownerName: currentUserName || 'Gestor Master',
+                ownerEmail: currentUser?.email || '',
+                providerName: '',
+                providerEmail: '',
+                declinedBy: [],
+                providerQueue: getProviderRoster().map(provider => provider.email),
+                offeredToEmail: getProviderRoster()[0]?.email || '',
+                providerCancellationHistory: [],
+                createdAt: new Date().toISOString()
+            };
+            missionsState.unshift(mission);
+            saveOwnerMissions();
+            chamadaPendente = { id: Date.now(), tipo: mission.type, imovel: mission.property, valor: mission.fee, status: 'Aguardando Prestador Aceitar', missionId };
+            setKeyRushActiveMission(missionId, false);
+            renderKeyRushMissions();
+            renderPrestadorArea();
+            atualizarTelaEsperaProprietario();
+            showToast('Solicitação enviada. Procurando prestador KeyRush...', 'success');
+            if (prestadorOnline) playKeyRushAlertSound();
+        }
+
+        function atualizarTelaEsperaProprietario() {
+            const box = document.getElementById('owner-service-tracking');
+            if (!box) return;
+            const email = currentUser?.email || '';
+            let mission = chamadaPendente?.missionId ? missionsState.find(item => item.id === chamadaPendente.missionId) : null;
+            if (!mission) {
+                const ownMissions = missionsState.filter(item => item.origin === 'owner_catalog' && (!email || item.ownerEmail === email));
+                mission = ownMissions.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))[0] || null;
+            }
+            if (!mission || ['Cancelado', 'Cancelado pelo proprietário'].includes(mission.status)) {
+                box.classList.add('hidden');
+                box.innerHTML = '';
+                return;
+            }
+            box.classList.remove('hidden');
+            if (mission.status === 'Pendente') {
+                box.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-11 h-11 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-300"><i class="fa-solid fa-satellite-dish animate-pulse text-lg"></i></div>
+                        <div><p class="text-[10px] uppercase tracking-wider text-amber-300 font-black">Acompanhamento do pedido</p><h3 class="text-base font-black text-white">Procurando prestador...</h3><p class="text-xs text-slate-400 mt-1">${mission.providerCancellationHistory?.length ? 'O prestador anterior cancelou. Estamos encaminhando para o próximo da lista.' : 'Estamos avisando os prestadores disponíveis.'}</p></div>
+                    </div>`;
+                return;
+            }
+            if (mission.status === 'Em execução' || mission.status === 'Aceito') {
+                const eta = mission.providerEtaLabel || 'Calculando tempo de chegada...';
+                const distance = Number.isFinite(Number(mission.providerDistanceKm)) ? `${Number(mission.providerDistanceKm).toFixed(1).replace('.', ',')} km` : 'A calcular';
+                const address = mission.address || mission.property || '';
+                const mapSrc = mission.providerLat != null && mission.providerLng != null
+                    ? `https://maps.google.com/maps?saddr=${encodeURIComponent(`${mission.providerLat},${mission.providerLng}`)}&daddr=${encodeURIComponent(address)}&output=embed&dirflg=d`
+                    : `https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
+                const mapsLink = mission.providerLat != null && mission.providerLng != null
+                    ? `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(`${mission.providerLat},${mission.providerLng}`)}&destination=${encodeURIComponent(address)}&travelmode=driving`
+                    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+                box.innerHTML = `
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div><p class="text-[10px] uppercase tracking-wider text-emerald-300 font-black">Prestador a caminho</p><h3 class="text-lg font-black text-white mt-1">${escapeServiceHTML(mission.providerName || 'Prestador KeyRush')}</h3><p class="text-xs text-slate-400">${escapeServiceHTML(mission.type)} • ${escapeServiceHTML(mission.property)}</p></div>
+                        <div class="grid grid-cols-2 gap-2"><div class="rounded-xl bg-slate-900 border border-slate-800 p-3"><span class="block text-[9px] uppercase text-slate-500">Distância</span><b class="text-base text-white">${distance}</b></div><div class="rounded-xl bg-slate-900 border border-slate-800 p-3"><span class="block text-[9px] uppercase text-slate-500">Chegada estimada</span><b class="text-sm text-amber-300">${escapeServiceHTML(eta)}</b></div></div>
+                    </div>
+                    <div class="h-44 overflow-hidden rounded-xl border border-slate-800"><iframe title="Acompanhamento do prestador no mapa" src="${mapSrc}" class="w-full h-full border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+                    <div class="flex items-center justify-between gap-2"><p class="text-[10px] text-slate-500">${mission.providerLocationUpdatedAt ? 'GPS atualizado: ' + new Date(mission.providerLocationUpdatedAt).toLocaleTimeString('pt-BR') : 'Aguardando atualização do GPS do prestador.'}</p><a href="${mapsLink}" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-emerald-300 hover:text-emerald-200">Abrir rota <i class="fa-solid fa-arrow-up-right-from-square ml-1"></i></a></div>`;
+                return;
+            }
+            if (mission.status === 'Concluído') {
+                box.innerHTML = `<div class="flex items-center gap-3 py-2"><i class="fa-solid fa-circle-check text-emerald-400 text-2xl"></i><div><h3 class="text-sm font-black text-white">Serviço finalizado</h3><p class="text-xs text-slate-400">Atendimento realizado por <b class="text-white">${escapeServiceHTML(mission.providerName || 'Prestador KeyRush')}</b>.</p></div></div>`;
+                return;
+            }
+            box.innerHTML = `<p class="text-xs text-slate-400">A solicitação está sendo atualizada.</p>`;
+        }
+
+        function getProviderRoster() {
+            const roster = (Array.isArray(registeredAccounts) ? registeredAccounts : [])
+                .filter(account => account && account.role === 'prestador' && account.email)
+                .map(account => ({ email: String(account.email).toLowerCase(), name: account.name || 'Prestador KeyRush', createdAt: account.createdAt || '' }));
+            return roster.sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)) || a.name.localeCompare(b.name));
+        }
+
+        function ensureMissionProviderQueue(mission) {
+            const roster = getProviderRoster();
+            const current = Array.isArray(mission.providerQueue) ? mission.providerQueue : [];
+            const merged = [...current];
+            roster.forEach(provider => { if (!merged.includes(provider.email)) merged.push(provider.email); });
+            mission.providerQueue = merged;
+            return merged;
+        }
+
+        function offerMissionToNextProvider(mission, previousProviderEmail = '') {
+            const queue = ensureMissionProviderQueue(mission);
+            const declined = new Set((mission.declinedBy || []).map(value => String(value).toLowerCase()));
+            const previous = String(previousProviderEmail || '').toLowerCase();
+            const previousIndex = queue.indexOf(previous);
+            const ordered = previousIndex >= 0 ? queue.slice(previousIndex + 1).concat(queue.slice(0, previousIndex + 1)) : queue;
+            const nextEmail = ordered.find(email => !declined.has(String(email).toLowerCase())) || '';
+            mission.offeredToEmail = nextEmail;
+            mission.dispatchUpdatedAt = new Date().toISOString();
+            mission.status = 'Pendente';
+            return nextEmail;
+        }
+
+        function renderPrestadorArea() {
+            const container = document.getElementById('provider-dynamic-area');
+            if (!container) return;
+            const identity = currentUser?.email || currentUserName || '';
+            const isProvider = perfilAutenticado === 'prestador';
+            const mineActive = missionsState.filter(m => m.origin === 'owner_catalog' && ['Em execução', 'Aceito'].includes(m.status) && (m.providerEmail === (currentUser?.email || '') || (!m.providerEmail && m.providerName === currentUserName)));
+            const pending = missionsState.filter(m => {
+                if (m.origin !== 'owner_catalog' || m.status !== 'Pendente') return false;
+                ensureMissionProviderQueue(m);
+                const declined = (m.declinedBy || []).map(value => String(value).toLowerCase());
+                return !declined.includes(String(identity).toLowerCase()) && (!m.offeredToEmail || String(m.offeredToEmail).toLowerCase() === String(identity).toLowerCase());
+            });
+            let visibleJobs = isProvider ? (mineActive.length ? mineActive.slice(0, 1) : pending) : missionsState.filter(m => m.origin === 'owner_catalog' && ['Pendente', 'Em execução', 'Aceito'].includes(m.status));
+            const activeCount = mineActive.length;
+            const statAtivos = document.getElementById('provider-stat-ativos');
+            if (statAtivos) statAtivos.innerText = String(activeCount);
+
+            if (visibleJobs.length) {
+                container.innerHTML = `<div class="space-y-3"><div class="flex items-center justify-between"><div><h2 class="text-lg font-black text-white">${isProvider ? 'Serviços recebidos' : 'Acompanhamento dos chamados'}</h2><p class="text-xs text-slate-400">${isProvider ? 'Você recebe os pedidos. Aceite para iniciar o atendimento ou cancele para liberar a chamada a outro prestador.' : 'Visão administrativa da fila de serviços KeyRush.'}</p></div><span class="rounded-full bg-amber-500/15 text-amber-300 px-3 py-1 text-xs font-bold">${visibleJobs.length} chamado(s)</span></div>${visibleJobs.map(m => {
+                    const active = ['Em execução', 'Aceito'].includes(m.status);
+                    const isAssignedToMe = m.providerEmail === (currentUser?.email || '') || (!m.providerEmail && m.providerName === currentUserName);
+                    const actions = isProvider
+                        ? (active && isAssignedToMe
+                            ? `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2"><button type="button" onclick="cancelarOwnerMission('${m.id}')" class="px-4 py-3 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-black"><i class="fa-solid fa-ban mr-1"></i>Cancelar atendimento</button><button type="button" onclick="concluirOwnerMission('${m.id}')" class="px-4 py-3 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-slate-950 text-sm font-black"><i class="fa-solid fa-check mr-2"></i>Finalizar serviço</button></div>`
+                            : (!active ? `<div class="grid grid-cols-2 gap-2"><button type="button" onclick="cancelarOwnerMission('${m.id}')" class="px-4 py-3 rounded-xl bg-rose-500/10 text-rose-300 border border-rose-500/30 text-xs font-black">Não aceitar</button><button type="button" onclick="aceitarOwnerMission('${m.id}')" class="px-4 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black">Aceitar serviço</button></div>` : `<p class="text-xs text-slate-400">Este chamado já foi atribuído a outro prestador.</p>`))
+                        : `<span class="px-3 py-2 rounded-lg ${active ? 'bg-teal-500/10 text-teal-300' : 'bg-amber-500/10 text-amber-300'} text-xs">${active ? 'Aceito por ' + escapeServiceHTML(m.providerName || 'Prestador') : (m.providerCancellationHistory?.length ? 'Prestador cancelou • procurando outro' : 'Procurando prestador')}</span>`;
+                    return `<article class="rounded-2xl border ${active ? 'border-teal-500/40' : 'border-amber-500/40'} bg-slate-900 p-5 space-y-3">
+                        <div class="flex flex-wrap items-center justify-between gap-2"><span class="text-[10px] uppercase tracking-wider font-black ${active ? 'text-teal-300' : 'text-amber-300'}">${active ? 'Serviço aceito • a caminho' : 'Novo chamado • aguardando aceite'}</span><span class="text-[10px] text-slate-500">${m.createdAt ? new Date(m.createdAt).toLocaleString('pt-BR') : m.time}</span></div>
+                        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3"><div><h3 class="text-base font-black text-white">${escapeServiceHTML(m.type)}</h3><p class="text-xs text-slate-300 mt-1"><i class="fa-solid fa-house mr-1 text-slate-500"></i>${escapeServiceHTML(m.property)}</p><p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-user mr-1"></i>${escapeServiceHTML(m.ownerName || 'Proprietário')}</p><p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-location-dot mr-1"></i>${escapeServiceHTML(m.address || 'Endereço não informado')}</p></div><div class="sm:text-right"><span class="block text-[10px] uppercase text-slate-500">Valor do serviço</span><strong class="text-2xl font-black text-emerald-300">${formatMoney(Number(m.fee) || 0)}</strong></div></div>
+                        <div class="pt-2 border-t border-slate-800">${actions}</div>
+                    </article>`;
+                }).join('')}</div>`;
+            } else {
+                container.innerHTML = `<div class="bg-cardBg border border-borderClr rounded-2xl p-8 text-center space-y-3"><div class="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-2xl mx-auto pulse-live"><i class="fa-solid fa-satellite-dish"></i></div><h2 class="text-base font-bold text-white">Aguardando novos chamados</h2><p class="text-xs text-slate-400">Quando um proprietário ou o Gestor Master solicitar um serviço, ele aparecerá aqui.</p></div>`;
+            }
+            renderPrestadorReport();
+        }
+
+        function saveOwnerMissions() { /* Persistência V4 via Supabase. */ }
+
+        function aceitarOwnerMission(missionId) {
+            if (perfilAutenticado !== 'prestador') {
+                showToast('Somente um prestador pode aceitar este chamado.', 'error');
+                return;
+            }
+            const mission = missionsState.find(m => m.id === missionId && m.origin === 'owner_catalog' && m.status === 'Pendente');
+            if (!mission) return;
+            const identity = String(currentUser?.email || '').toLowerCase();
+            if (mission.offeredToEmail && String(mission.offeredToEmail).toLowerCase() !== identity) {
+                showToast('Este chamado está direcionado a outro prestador.', 'error');
+                return;
+            }
+            mission.status = 'Em execução';
+            mission.providerName = currentUserName || 'Prestador KeyRush';
+            mission.providerEmail = currentUser?.email || '';
+            mission.offeredToEmail = '';
+            mission.acceptedAt = new Date().toISOString();
+            mission.declinedBy = mission.declinedBy || [];
+            if (chamadaPendente && chamadaPendente.missionId === missionId) chamadaPendente.status = 'Em Trânsito (A caminho)';
+            setKeyRushActiveMission(missionId, false);
+            saveOwnerMissions();
+            renderKeyRushMissions(); renderPrestadorArea(); atualizarTelaEsperaProprietario();
+            startProviderLiveTracking(missionId);
+            showToast('Serviço aceito. Ative a localização do navegador para atualizar a previsão de chegada do proprietário.', 'success');
+        }
+
+        function recusarOwnerMission(missionId) {
+            cancelarOwnerMission(missionId);
+        }
+
+        function cancelarOwnerMission(missionId) {
+            if (perfilAutenticado !== 'prestador') {
+                showToast('Somente o prestador pode cancelar a própria oferta de atendimento.', 'error');
+                return;
+            }
+            const mission = missionsState.find(m => m.id === missionId && m.origin === 'owner_catalog' && ['Pendente', 'Aceito', 'Em execução'].includes(m.status));
+            if (!mission) return;
+            const identity = String(currentUser?.email || currentUserName || 'prestador').toLowerCase();
+            const isAssignedToMe = ['Aceito', 'Em execução'].includes(mission.status) && String(mission.providerEmail || '').toLowerCase() === identity;
+            const isOfferedToMe = mission.status === 'Pendente' && (!mission.offeredToEmail || String(mission.offeredToEmail).toLowerCase() === identity);
+            if (!isAssignedToMe && !isOfferedToMe) {
+                showToast('Este chamado não está atribuído à sua conta.', 'error');
+                return;
+            }
+            const previousStatus = mission.status;
+            const previousProviderName = mission.providerName || currentUserName || 'Prestador';
+            mission.declinedBy = Array.from(new Set([...(mission.declinedBy || []).map(value => String(value).toLowerCase()), identity]));
+            mission.providerCancellationHistory = mission.providerCancellationHistory || [];
+            mission.providerCancellationHistory.push({ email: identity, name: previousProviderName, at: new Date().toISOString(), previousStatus });
+            mission.providerName = '';
+            mission.providerEmail = '';
+            mission.providerLat = null;
+            mission.providerLng = null;
+            mission.providerDistanceKm = null;
+            mission.providerEtaMinutes = null;
+            mission.providerEtaLabel = '';
+            mission.providerLocationUpdatedAt = null;
+            const nextProvider = offerMissionToNextProvider(mission, identity);
+            if (chamadaPendente?.missionId === missionId) chamadaPendente.status = 'Aguardando Prestador Aceitar';
+            stopProviderLiveTracking();
+            saveOwnerMissions();
+            renderKeyRushMissions();
+            renderPrestadorArea();
+            atualizarTelaEsperaProprietario();
+            if (nextProvider) {
+                const next = getProviderRoster().find(provider => provider.email === nextProvider);
+                showToast(`Atendimento cancelado. Chamado encaminhado para ${next?.name || 'o próximo prestador'}.`, 'info');
+            } else {
+                showToast('Atendimento cancelado. O chamado voltou para a fila e aguarda outro prestador disponível.', 'info');
+            }
+        }
+
+        function concluirOwnerMission(missionId) {
+            if (perfilAutenticado !== 'prestador') {
+                showToast('Somente o prestador responsável pode finalizar o serviço.', 'error');
+                return;
+            }
+            const mission = missionsState.find(m => m.id === missionId && m.origin === 'owner_catalog' && ['Aceito', 'Em execução'].includes(m.status) && (m.providerEmail === (currentUser?.email || '') || (!m.providerEmail && m.providerName === currentUserName)));
+            if (!mission) {
+                showToast('Este serviço não está atribuído à sua conta.', 'error');
+                return;
+            }
+            mission.status = 'Concluído';
+            mission.completedAt = new Date().toISOString();
+            mission.paid = true;
+            if (chamadaPendente && chamadaPendente.missionId === missionId) chamadaPendente.status = 'Concluído';
+            stopProviderLiveTracking();
+            saveOwnerMissions();
+            renderKeyRushMissions(); renderPrestadorArea(); atualizarTelaEsperaProprietario();
+            showToast(`Serviço concluído: ${formatMoney(mission.fee)} adicionado ao seu relatório.`, 'success');
+        }
+
+        function renderPrestadorReport() {
+            const mine = missionsState.filter(m => m.origin === 'owner_catalog' && m.status === 'Concluído' && (perfilAutenticado === 'gestor' || (!currentUserName && !currentUser?.email) || (m.providerEmail && m.providerEmail === (currentUser?.email || '')) || (!m.providerEmail && m.providerName === currentUserName)));
+            const total = mine.reduce((sum, m) => sum + (Number(m.fee) || 0), 0);
+            const count = document.getElementById('provider-report-count');
+            const totalEl = document.getElementById('provider-report-total');
+            const avgEl = document.getElementById('provider-report-average');
+            const list = document.getElementById('provider-report-list');
+            const ganhosEl = document.getElementById('provider-stat-ganhos');
+            if (count) count.textContent = String(mine.length);
+            if (totalEl) totalEl.textContent = formatMoney(total);
+            if (avgEl) avgEl.textContent = formatMoney(mine.length ? total / mine.length : 0);
+            if (ganhosEl) ganhosEl.textContent = formatMoney(total);
+            if (list) list.innerHTML = mine.length ? mine.slice().sort((a,b) => new Date(b.completedAt || 0) - new Date(a.completedAt || 0)).map(m => `<tr><td class="py-3 pr-3 text-slate-400">${m.completedAt ? new Date(m.completedAt).toLocaleDateString('pt-BR') : '—'}</td><td class="py-3 pr-3"><b class="text-white">${escapeServiceHTML(m.type)}</b><span class="block text-[10px] text-slate-500">${escapeServiceHTML(m.property)}</span></td><td class="py-3 pr-3 text-slate-300">${escapeServiceHTML(m.ownerName || 'Proprietário')}</td><td class="py-3 text-right font-black text-emerald-300">${formatMoney(m.fee)}</td></tr>`).join('') : '<tr><td colspan="4" class="py-5 text-center text-slate-500">Nenhum serviço concluído ainda. Seus ganhos aparecerão aqui.</td></tr>';
+        }
+
+        function recusarChamada() {
+            if (perfilAutenticado !== 'prestador') return;
+            if (chamadaPendente?.missionId) cancelarOwnerMission(chamadaPendente.missionId);
+            declineMission();
+        }
+
+        function aceitarChamada() {
+            if (perfilAutenticado !== 'prestador') return;
+            if (chamadaPendente?.missionId) aceitarOwnerMission(chamadaPendente.missionId);
+            declineMission();
+        }
+
+        function concluirServicoPrestador() {
+            if (perfilAutenticado !== 'prestador' || !chamadaPendente?.missionId) return;
+            concluirOwnerMission(chamadaPendente.missionId);
+        }
+
+        function formatMoney(val) {
+            return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val || 0);
+        }
+    
+
+        // ===== LÓGICA DA CENTRAL UNIFICADA HOSTMASTER & KEYRUSH =====
+
+        // Catálogo inicia vazio. O Gestor Master cadastra os serviços e preços reais.
+        const DEFAULT_SERVICE_CATALOG = [];
+
+        function loadServiceCatalog() {
+            try {
+                return DEFAULT_SERVICE_CATALOG.map(item => ({ ...item }));
+            } catch (error) {
+                console.warn('Não foi possível carregar o catálogo salvo:', error);
+                return DEFAULT_SERVICE_CATALOG.map(item => ({ ...item }));
+            }
+        }
+
+        let servicesCatalog = loadServiceCatalog();
+
+        function saveServiceCatalog() { renderServicesAdmin(); renderOwnerServiceCatalog(); }
+
+        function escapeServiceHTML(value) {
+            return String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+        }
+
+        function renderServicesAdmin() {
+            const list = document.getElementById('serviceAdminList');
+            if (!list) return;
+            const active = servicesCatalog.filter(service => service.active).length;
+            const totalEl = document.getElementById('serviceAdminTotal');
+            const activeEl = document.getElementById('serviceAdminActive');
+            const inactiveEl = document.getElementById('serviceAdminInactive');
+            if (totalEl) totalEl.textContent = servicesCatalog.length;
+            if (activeEl) activeEl.textContent = active;
+            if (inactiveEl) inactiveEl.textContent = servicesCatalog.length - active;
+
+            if (!servicesCatalog.length) {
+                list.innerHTML = '<div class="text-center p-8 bg-gray-950 rounded-xl border border-dashed border-gray-700 text-sm text-gray-400">Nenhum serviço cadastrado. Clique em “Adicionar serviço”.</div>';
+                return;
+            }
+            list.innerHTML = servicesCatalog.map(service => `
+                <div class="bg-gray-950 border border-gray-800 rounded-xl p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+                    <div class="min-w-0 flex-1">
+                        <div class="flex flex-wrap items-center gap-2"><h4 class="font-bold text-white">${escapeServiceHTML(service.name)}</h4><span class="text-[10px] px-2 py-1 rounded-full ${service.active ? 'bg-emerald-500/15 text-emerald-400' : 'bg-gray-800 text-gray-400'}">${service.active ? 'Disponível' : 'Inativo'}</span><span class="text-[10px] bg-indigo-500/15 text-indigo-300 px-2 py-1 rounded-full">${escapeServiceHTML(service.category || 'Outros')}</span></div>
+                        <p class="text-xs text-gray-400 mt-1">${escapeServiceHTML(service.description || 'Sem descrição')}</p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 lg:justify-end">
+                        <strong class="text-lg font-black text-emerald-400 font-mono min-w-28">${formatMoney(Number(service.price) || 0)}</strong>
+                        <button type="button" onclick="openServiceForm(${Number(service.id)})" class="px-3 py-2 bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 rounded-lg text-xs font-bold"><i class="fa-solid fa-pen mr-1"></i>Editar</button>
+                        <button type="button" onclick="toggleServiceActive(${Number(service.id)})" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-200 rounded-lg text-xs font-bold">${service.active ? 'Desativar' : 'Ativar'}</button>
+                        <button type="button" onclick="deleteService(${Number(service.id)})" class="px-3 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 rounded-lg text-xs font-bold" aria-label="Excluir serviço"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openServiceForm(serviceId = null) {
+            const form = document.getElementById('serviceEditorForm');
+            if (!form) return;
+            const service = serviceId === null ? null : servicesCatalog.find(item => Number(item.id) === Number(serviceId));
+            document.getElementById('serviceEditorTitle').textContent = service ? 'Editar serviço' : 'Adicionar novo serviço';
+            document.getElementById('serviceEditId').value = service ? service.id : '';
+            document.getElementById('serviceNameInput').value = service ? service.name : '';
+            document.getElementById('serviceCategoryInput').value = service ? (service.category || 'Outros') : 'KeyRush';
+            document.getElementById('servicePriceInput').value = service ? Number(service.price).toFixed(2) : '';
+            document.getElementById('serviceDescriptionInput').value = service ? (service.description || '') : '';
+            document.getElementById('serviceActiveInput').checked = service ? !!service.active : true;
+            form.classList.remove('hidden');
+            form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function cancelServiceEdit() {
+            const form = document.getElementById('serviceEditorForm');
+            if (form) form.classList.add('hidden');
+            const formEl = document.getElementById('serviceEditorForm');
+            if (formEl) formEl.reset();
+        }
+
+        function saveServiceFromForm(event) {
+            event.preventDefault();
+            const idValue = document.getElementById('serviceEditId').value;
+            const serviceData = {
+                name: document.getElementById('serviceNameInput').value.trim(),
+                category: document.getElementById('serviceCategoryInput').value,
+                price: Number(document.getElementById('servicePriceInput').value),
+                description: document.getElementById('serviceDescriptionInput').value.trim(),
+                active: document.getElementById('serviceActiveInput').checked
+            };
+            if (!serviceData.name || !Number.isFinite(serviceData.price) || serviceData.price < 0) {
+                showToast('Informe o nome e um valor válido para o serviço.', 'error');
+                return;
+            }
+            if (idValue) {
+                const index = servicesCatalog.findIndex(item => Number(item.id) === Number(idValue));
+                if (index >= 0) servicesCatalog[index] = { ...servicesCatalog[index], ...serviceData };
+            } else {
+                const nextId = Math.max(0, ...servicesCatalog.map(item => Number(item.id) || 0)) + 1;
+                servicesCatalog.push({ id: nextId, ...serviceData });
+            }
+            saveServiceCatalog();
+            cancelServiceEdit();
+            showToast('Catálogo de serviços atualizado.', 'success');
+        }
+
+        function toggleServiceActive(serviceId) {
+            const service = servicesCatalog.find(item => Number(item.id) === Number(serviceId));
+            if (!service) return;
+            service.active = !service.active;
+            saveServiceCatalog();
+            showToast(service.active ? 'Serviço liberado para os proprietários.' : 'Serviço desativado.', 'success');
+        }
+
+        function deleteService(serviceId) {
+            const service = servicesCatalog.find(item => Number(item.id) === Number(serviceId));
+            if (!service) return;
+            if (!confirm(`Excluir o serviço “${service.name}”?`)) return;
+            servicesCatalog = servicesCatalog.filter(item => Number(item.id) !== Number(serviceId));
+            saveServiceCatalog();
+            showToast('Serviço excluído do catálogo.', 'success');
+        }
+
+        function renderOwnerServiceCatalog() {
+            const container = document.getElementById('ownerServiceCatalog');
+            const propertySelect = document.getElementById('ownerServiceProperty');
+            if (!container) return;
+            if (propertySelect) {
+                const selected = propertySelect.value;
+                propertySelect.innerHTML = propertiesState.map(property => `<option value="${Number(property.id)}">${escapeServiceHTML(property.title)}</option>`).join('');
+                if (propertiesState.some(property => String(property.id) === selected)) propertySelect.value = selected;
+            }
+            const available = servicesCatalog.filter(service => service.active);
+            if (!available.length) {
+                container.innerHTML = '<div class="md:col-span-2 xl:col-span-3 text-center p-8 bg-gray-950 rounded-xl border border-dashed border-gray-700 text-sm text-gray-400">Nenhum serviço disponível no momento. Consulte o Gestor Master.</div>';
+                return;
+            }
+            container.innerHTML = available.map(service => `
+                <article class="bg-gray-950 border border-gray-800 hover:border-emerald-500/50 rounded-xl p-4 flex flex-col justify-between gap-4 transition">
+                    <div><div class="flex items-center justify-between gap-2"><span class="text-[10px] uppercase tracking-wider font-bold text-emerald-400">${escapeServiceHTML(service.category || 'Serviço')}</span><i class="fa-solid fa-circle-check text-emerald-500"></i></div><h3 class="text-sm font-black text-white mt-2">${escapeServiceHTML(service.name)}</h3><p class="text-xs text-gray-400 mt-1 min-h-8">${escapeServiceHTML(service.description || 'Serviço disponível para solicitação.')}</p></div>
+                    <div class="flex items-center justify-between gap-2 border-t border-gray-800 pt-3"><strong class="text-lg font-black text-emerald-400">${formatMoney(Number(service.price) || 0)}</strong><button type="button" onclick="solicitarServicoCatalogo(${Number(service.id)})" class="px-3 py-2 bg-emerald-500 hover:bg-emerald-400 text-gray-950 text-xs font-black rounded-lg transition"><i class="fa-solid fa-paper-plane mr-1"></i>Solicitar</button></div>
+                </article>
+            `).join('');
+        }
+
+        function solicitarServicoCatalogo(serviceId) {
+            if (!['proprietario', 'gestor'].includes(perfilAutenticado)) {
+                showToast('Apenas Proprietário ou Gestor Master podem solicitar serviços.', 'error');
+                return;
+            }
+            const service = servicesCatalog.find(item => Number(item.id) === Number(serviceId) && item.active);
+            if (!service) {
+                showToast('Este serviço não está mais disponível.', 'error');
+                renderOwnerServiceCatalog();
+                return;
+            }
+            const propertyId = Number(document.getElementById('ownerServiceProperty')?.value);
+            const property = propertiesState.find(item => Number(item.id) === propertyId) || propertiesState[0];
+            const missionId = `M${Date.now()}`;
+            const mission = {
+                id: missionId,
+                property: property ? property.title : 'Imóvel não informado',
+                guest: 'Solicitado pelo proprietário',
+                time: 'Solicitado agora',
+                fee: Number(service.price) || 0,
+                status: 'Pendente',
+                type: service.name,
+                address: property ? property.address : '',
+                origin: 'owner_catalog',
+                ownerName: currentUserName || (perfilAutenticado === 'gestor' ? 'Gestor Master' : 'Proprietário'),
+                ownerEmail: currentUser?.email || '',
+                providerName: '',
+                providerEmail: '',
+                declinedBy: [],
+                providerQueue: getProviderRoster().map(provider => provider.email),
+                offeredToEmail: getProviderRoster()[0]?.email || '',
+                providerCancellationHistory: [],
+                createdAt: new Date().toISOString()
+            };
+            missionsState.unshift(mission);
+            saveOwnerMissions();
+            chamadaPendente = { id: Date.now(), tipo: service.name, imovel: mission.property, valor: mission.fee, status: 'Aguardando Prestador Aceitar', missionId };
+            setKeyRushActiveMission(missionId, false);
+            renderKeyRushMissions(); renderPrestadorArea(); renderPrestadorReport(); atualizarTelaEsperaProprietario();
+            if (prestadorOnline) playKeyRushAlertSound();
+            showToast('Solicitação enviada. Procurando prestador...', 'success');
+        }
+
+        let propertiesState = [];
+
+        // Persistência V4 é feita no Supabase.
+        function savePropertiesState() { /* Persistência V4 via Supabase. */ }
+
+        let dreData = [];
+
+        let missionsState = [];
+        // Imóveis, lançamentos e chamados reais são carregados do Supabase após autenticação.
+
+        let timerInterval = null;
+        let countdownSeconds = 30;
+        let modalChartsInitialized = false;
+        let activeMissionId = null;
+        let keyRushCurrentPosition = null;
+        let keyRushRouteRequest = 0;
+        let keyRushWatchId = null;
+        let keyRushLastRouteAt = 0;
+        let chartsInitialized = false;
+
+        function setKeyRushActiveMission(missionId, recalculate = true) {
+            const mission = missionsState.find(item => item.id === missionId);
+            if (!mission) return;
+            activeMissionId = mission.id;
+
+            const property = propertiesState.find(item => item.title === mission.property);
+            const address = mission.address || (property ? property.address : '');
+            const destinationLabel = document.getElementById('keyrushRouteDestination');
+            const mapFrame = document.getElementById('keyrushGoogleMap');
+            const mapsLink = document.getElementById('keyrushGoogleMapsLink');
+
+            if (destinationLabel) destinationLabel.textContent = address || mission.property;
+            if (mapFrame && address) {
+                mapFrame.src = `https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
+            }
+            if (mapsLink && address) {
+                mapsLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+            }
+            if (recalculate && keyRushCurrentPosition) updateKeyRushRoute();
+        }
+
+        async function geocodeKeyRushAddress(address) {
+            const endpoint = `https://photon.komoot.io/api/?q=${encodeURIComponent(address)}&limit=1&lang=pt`;
+            const response = await fetch(endpoint);
+            if (!response.ok) throw new Error('Não foi possível localizar o endereço.');
+            const data = await response.json();
+            const feature = data.features && data.features[0];
+            if (!feature || !feature.geometry || !feature.geometry.coordinates) {
+                throw new Error('Endereço do imóvel não encontrado no mapa.');
+            }
+            return {
+                longitude: Number(feature.geometry.coordinates[0]),
+                latitude: Number(feature.geometry.coordinates[1])
+            };
+        }
+
+        function formatRouteDuration(seconds) {
+            const minutes = Math.max(1, Math.round(seconds / 60));
+            if (minutes < 60) return `${minutes} min`;
+            const hours = Math.floor(minutes / 60);
+            const rest = minutes % 60;
+            return rest ? `${hours} h ${rest} min` : `${hours} h`;
+        }
+
+        async function updateKeyRushRoute() {
+            const statusEl = document.getElementById('keyrushGpsStatus');
+            const distanceEl = document.getElementById('keyrushDistance');
+            const etaEl = document.getElementById('keyrushEta');
+            const mapFrame = document.getElementById('keyrushGoogleMap');
+            const mapsLink = document.getElementById('keyrushGoogleMapsLink');
+            const mission = missionsState.find(item => item.id === activeMissionId);
+
+            if (!mission) {
+                if (statusEl) statusEl.textContent = 'Selecione um chamado para calcular a rota.';
+                return;
+            }
+            const property = propertiesState.find(item => item.title === mission.property);
+            const address = mission.address || (property ? property.address : '');
+            if (!address) {
+                if (statusEl) statusEl.textContent = 'Cadastre o endereço do imóvel para calcular a rota.';
+                return;
+            }
+            if (!keyRushCurrentPosition) {
+                if (statusEl) statusEl.textContent = 'Ative o GPS para calcular a distância e o tempo até o imóvel.';
+                return;
+            }
+
+            const requestId = ++keyRushRouteRequest;
+            if (statusEl) statusEl.textContent = 'Calculando percurso e previsão de chegada...';
+            if (distanceEl) distanceEl.textContent = '...';
+            if (etaEl) etaEl.textContent = '...';
+
+            try {
+                const destination = await geocodeKeyRushAddress(address);
+                if (requestId !== keyRushRouteRequest) return;
+
+                const origin = keyRushCurrentPosition;
+                const routeUrl = `https://router.project-osrm.org/route/v1/driving/${origin.longitude},${origin.latitude};${destination.longitude},${destination.latitude}?overview=false`;
+                const routeResponse = await fetch(routeUrl);
+                if (!routeResponse.ok) throw new Error('Serviço de rotas indisponível.');
+                const routeData = await routeResponse.json();
+                const route = routeData.routes && routeData.routes[0];
+                if (!route) throw new Error('Não foi possível calcular uma rota para este endereço.');
+                if (requestId !== keyRushRouteRequest) return;
+
+                const km = route.distance / 1000;
+                const etaMinutes = Math.max(1, Math.round(route.duration / 60));
+                const etaLabel = formatRouteDuration(route.duration);
+                if (distanceEl) distanceEl.textContent = `${km.toFixed(1).replace('.', ',')} km`;
+                if (etaEl) etaEl.textContent = etaLabel;
+                if (mission.origin === 'owner_catalog' && mission.status === 'Em execução' && (mission.providerEmail === (currentUser?.email || '') || mission.providerName === currentUserName)) {
+                    mission.providerDistanceKm = km;
+                    mission.providerEtaMinutes = etaMinutes;
+                    mission.providerEtaLabel = etaLabel;
+                    mission.providerLat = origin.latitude;
+                    mission.providerLng = origin.longitude;
+                    mission.providerLocationUpdatedAt = new Date().toISOString();
+                    saveOwnerMissions();
+                    atualizarTelaEsperaProprietario();
+                }
+
+                const originText = `${origin.latitude},${origin.longitude}`;
+                const destinationText = address;
+                if (mapFrame) {
+                    mapFrame.src = `https://maps.google.com/maps?saddr=${encodeURIComponent(originText)}&daddr=${encodeURIComponent(destinationText)}&output=embed&dirflg=d`;
+                }
+                if (mapsLink) {
+                    mapsLink.href = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(originText)}&destination=${encodeURIComponent(destinationText)}&travelmode=driving`;
+                }
+                if (statusEl) statusEl.textContent = `Rota calculada para ${mission.property}. Estimativa de percurso viário.`;
+            } catch (error) {
+                if (statusEl) statusEl.textContent = `${error.message || 'Falha ao calcular a rota.'} Você ainda pode abrir o destino no Google Maps.`;
+                if (distanceEl) distanceEl.textContent = '-- km';
+                if (etaEl) etaEl.textContent = '-- min';
+                if (mapsLink) mapsLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+            }
+        }
+
+        function startProviderLiveTracking(missionId) {
+            if (!navigator.geolocation) {
+                showToast('GPS indisponível neste navegador. A previsão de chegada não poderá ser calculada.', 'error');
+                return;
+            }
+            stopProviderLiveTracking();
+            setKeyRushActiveMission(missionId, false);
+            keyRushLastRouteAt = 0;
+            keyRushWatchId = navigator.geolocation.watchPosition(position => {
+                keyRushCurrentPosition = { latitude: position.coords.latitude, longitude: position.coords.longitude };
+                const mission = missionsState.find(item => item.id === missionId && item.status === 'Em execução');
+                if (mission) {
+                    mission.providerLat = keyRushCurrentPosition.latitude;
+                    mission.providerLng = keyRushCurrentPosition.longitude;
+                    mission.providerLocationUpdatedAt = new Date().toISOString();
+                    saveOwnerMissions();
+                    atualizarTelaEsperaProprietario();
+                }
+                const now = Date.now();
+                if (now - keyRushLastRouteAt >= 20000) {
+                    keyRushLastRouteAt = now;
+                    updateKeyRushRoute();
+                }
+            }, error => {
+                const messages = { 1: 'Permissão de GPS negada. Autorize a localização para informar a chegada.', 2: 'Não foi possível obter a localização do prestador.', 3: 'Tempo esgotado ao buscar o GPS.' };
+                const status = document.getElementById('keyrushGpsStatus');
+                if (status) status.textContent = messages[error.code] || 'Falha ao obter GPS.';
+                atualizarTelaEsperaProprietario();
+            }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 });
+        }
+
+        function stopProviderLiveTracking() {
+            if (keyRushWatchId !== null && navigator.geolocation) navigator.geolocation.clearWatch(keyRushWatchId);
+            keyRushWatchId = null;
+        }
+
+        function updateKeyRushLocation() {
+            const statusEl = document.getElementById('keyrushGpsStatus');
+            if (!navigator.geolocation) {
+                if (statusEl) statusEl.textContent = 'Este navegador não oferece suporte à localização GPS.';
+                return;
+            }
+            if (statusEl) statusEl.textContent = 'Solicitando permissão de localização...';
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    keyRushCurrentPosition = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    };
+                    if (statusEl) statusEl.textContent = 'GPS atualizado. Calculando rota...';
+                    updateKeyRushRoute();
+                },
+                error => {
+                    const messages = {
+                        1: 'Permissão de localização negada. Autorize o GPS no navegador.',
+                        2: 'Não foi possível obter sua localização atual.',
+                        3: 'Tempo esgotado ao buscar a localização. Tente novamente.'
+                    };
+                    if (statusEl) statusEl.textContent = messages[error.code] || 'Falha ao obter GPS.';
+                },
+                { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+            );
+        }
+    
+
+        function playKeyRushAlertSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const tones = [
+                    { freq: 880, start: 0, duration: 0.15 },
+                    { freq: 1174.66, start: 0.18, duration: 0.2 },
+                    { freq: 1760, start: 0.4, duration: 0.35 }
+                ];
+
+                tones.forEach(t => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(t.freq, audioCtx.currentTime + t.start);
+                    gain.gain.setValueAtTime(0, audioCtx.currentTime + t.start);
+                    gain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + t.start + 0.02);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + t.start + t.duration);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(audioCtx.currentTime + t.start);
+                    osc.stop(audioCtx.currentTime + t.start + t.duration);
+                });
+            } catch(e) {
+                console.log("Audio not allowed without interaction", e);
+            }
+        }
+
+        function toggleAudioTest() {
+            playKeyRushAlertSound();
+            showToast("🔊 Alerta Sonoro executado com sucesso!", "success");
+        }
+
+        function switchMode(mode) {
+            const btnHost = document.getElementById('btnModeHost');
+            const btnKeyRush = document.getElementById('btnModeKeyRush');
+            const sectionHost = document.getElementById('hostmasterSection');
+            const sectionKeyRush = document.getElementById('keyrushSection');
+
+            if (mode === 'host') {
+                btnHost.className = "px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 bg-indigo-600 text-white shadow-md";
+                btnKeyRush.className = "px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 text-gray-400 hover:text-white";
+                sectionHost.classList.remove('hidden');
+                sectionKeyRush.classList.add('hidden');
+                if (document.getElementById('hostmasterSection')) { setTimeout(() => { if (!chartsInitialized) { initCharts(); chartsInitialized = true; } }, 120); }
+            } else {
+                btnKeyRush.className = "px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 bg-amber-500 text-gray-950 font-bold shadow-md shadow-amber-500/20";
+                btnHost.className = "px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 text-gray-400 hover:text-white";
+                sectionKeyRush.classList.remove('hidden');
+                sectionHost.classList.add('hidden');
+                if (activeMissionId) setKeyRushActiveMission(activeMissionId, true);
+            }
+        }
+
+        function switchHostTab(tabName) {
+            document.querySelectorAll('.host-tab-btn').forEach(btn => {
+                btn.className = "host-tab-btn px-4 py-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white whitespace-nowrap";
+            });
+            
+            const activeTabBtn = document.getElementById(`tab-${tabName}`);
+            if(activeTabBtn) {
+                activeTabBtn.className = "host-tab-btn px-4 py-2 rounded-lg bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 whitespace-nowrap font-bold";
+            }
+
+            document.getElementById('hostTabOverview').classList.add('hidden');
+            document.getElementById('hostTabProperties').classList.add('hidden');
+            document.getElementById('hostTabDRE').classList.add('hidden');
+            document.getElementById('hostTabReports').classList.add('hidden');
+
+            if(tabName === 'overview') { document.getElementById('hostTabOverview').classList.remove('hidden'); if (!chartsInitialized) { setTimeout(() => { initCharts(); chartsInitialized = true; }, 120); } }
+            if(tabName === 'properties') document.getElementById('hostTabProperties').classList.remove('hidden');
+            if(tabName === 'dre') document.getElementById('hostTabDRE').classList.remove('hidden');
+            if(tabName === 'reports') document.getElementById('hostTabReports').classList.remove('hidden');
+        }
+
+        function renderProperties() {
+            const grid = document.getElementById('propertiesGrid');
+            if(!grid) return;
+            grid.innerHTML = propertiesState.map(p => `
+                <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden hover:border-gray-700 transition flex flex-col justify-between">
+                    <div>
+                        <div class="h-44 w-full relative overflow-hidden bg-gray-950">
+                            <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover">
+                            <span class="absolute top-3 right-3 text-xs px-2.5 py-1 rounded-full font-bold shadow-md ${
+                                p.status === 'Disponível' ? 'bg-emerald-500 text-gray-950' : 
+                                p.status === 'Ocupado' ? 'bg-indigo-600 text-white' : 'bg-amber-500 text-gray-950'
+                            }">
+                                ${p.status}
+                            </span>
+                        </div>
+                        <div class="p-5 space-y-2">
+                            <h4 class="font-bold text-white text-base">${p.title}</h4>
+                            <p class="text-xs text-gray-400 flex items-center gap-1">
+                                <i class="fa-solid fa-location-dot text-indigo-400"></i> ${p.address}
+                            </p>
+                            <p class="text-xs font-semibold text-emerald-400">
+                                R$ ${p.dailyRate},00 <span class="text-gray-400 font-normal">/ diária</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0 space-y-2">
+                        <a href="${p.airbnbUrl}" target="_blank" rel="noopener noreferrer" class="w-full py-2 bg-gray-800 hover:bg-gray-700 text-gray-200 text-xs font-bold rounded-xl flex items-center justify-center gap-2 border border-gray-700 transition">
+                            <i class="fa-brands fa-airbnb text-rose-500 text-sm"></i> Acessar Anúncio no Airbnb
+                        </a>
+                        <button type="button" onclick="openPropertyCalendar(${Number(p.id)})" class="w-full py-2 bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 text-xs font-bold rounded-xl flex items-center justify-center gap-2 border border-sky-500/30 transition">
+                            <i class="fa-solid fa-calendar-days"></i> Calendário & Bloquear datas
+                        </button>
+                        <button onclick="requestKeyRushForProp('${p.title}')" class="w-full py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-bold rounded-xl flex items-center justify-center gap-2 border border-amber-500/30 transition">
+                            <i class="fa-solid fa-motorcycle"></i> Solicitar KeyRush Concierge
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        let activeCalendarPropertyId = null;
+
+        function openPropertyCalendar(propertyId) {
+            const property = propertiesState.find(item => String(item.id) === String(propertyId));
+            if (!property) return;
+            activeCalendarPropertyId = Number(propertyId);
+            property.manualBlocks = Array.isArray(property.manualBlocks) ? property.manualBlocks : [];
+            property.airbnbEvents = Array.isArray(property.airbnbEvents) ? property.airbnbEvents : [];
+            document.getElementById('propertyCalendarTitle').textContent = `Calendário • ${property.title}`;
+            const monthInput = document.getElementById('calendarMonth');
+            monthInput.value = new Date().toISOString().slice(0, 7);
+            document.getElementById('manualBlockStart').value = '';
+            document.getElementById('manualBlockEnd').value = '';
+            document.getElementById('manualBlockReason').value = '';
+            const syncStatus = document.getElementById('airbnbCalendarSyncStatus');
+            document.getElementById('calendarIcalUrl').value = property.airbnbIcalUrl || '';
+            syncStatus.textContent = property.airbnbIcalUrl ? 'Link iCal cadastrado. Sincronização automática será ativada após conectar o servidor seguro.' : 'Cole o link iCal para preparar a sincronização.';
+            const modal = document.getElementById('propertyCalendarModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            renderPropertyCalendar();
+        }
+
+        function closePropertyCalendar() {
+            const modal = document.getElementById('propertyCalendarModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            activeCalendarPropertyId = null;
+        }
+
+        function dateToISO(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function getCalendarDaySource(property, isoDate) {
+            const airbnb = (property.airbnbEvents || []).find(event => isoDate >= event.startDate && isoDate < event.endDate);
+            if (airbnb) return { type: 'airbnb', label: airbnb.summary || 'Reservado no Airbnb' };
+            const manual = (property.manualBlocks || []).find(block => isoDate >= block.startDate && isoDate <= block.endDate);
+            if (manual) return { type: 'manual', label: manual.reason || 'Bloqueio manual' };
+            return null;
+        }
+
+        function renderPropertyCalendar() {
+            const property = propertiesState.find(item => String(item.id) === String(activeCalendarPropertyId));
+            const grid = document.getElementById('propertyCalendarGrid');
+            const list = document.getElementById('manualCalendarBlockList');
+            if (!property || !grid) return;
+            const monthValue = document.getElementById('calendarMonth').value || new Date().toISOString().slice(0, 7);
+            const [year, month] = monthValue.split('-').map(Number);
+            const firstDay = new Date(year, month - 1, 1).getDay();
+            const daysInMonth = new Date(year, month, 0).getDate();
+            let html = '';
+            for (let i = 0; i < firstDay; i++) html += '<div class="h-10 rounded-lg bg-gray-950/40"></div>';
+            for (let day = 1; day <= daysInMonth; day++) {
+                const iso = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const source = getCalendarDaySource(property, iso);
+                const cls = source?.type === 'airbnb' ? 'bg-rose-500/20 border-rose-500/40 text-rose-200' : source?.type === 'manual' ? 'bg-sky-500/20 border-sky-500/40 text-sky-200' : 'bg-gray-950 border-gray-800 text-gray-300';
+                html += `<div title="${escapeServiceHTML(source?.label || 'Disponível')}" class="h-10 rounded-lg border ${cls} flex flex-col items-center justify-center"><span class="text-xs font-bold">${day}</span>${source ? '<span class="text-[8px] font-black">' + (source.type === 'airbnb' ? 'AIRBNB' : 'BLOQ.') + '</span>' : ''}</div>`;
+            }
+            grid.innerHTML = html;
+            const manual = property.manualBlocks || [];
+            list.innerHTML = manual.length ? manual.map(block => `<div class="flex items-center justify-between gap-3 rounded-lg bg-gray-950 border border-gray-800 p-3"><div><b class="text-white">${new Date(block.startDate + 'T12:00:00').toLocaleDateString('pt-BR')} a ${new Date(block.endDate + 'T12:00:00').toLocaleDateString('pt-BR')}</b><p class="text-[10px] text-gray-500">${escapeServiceHTML(block.reason || 'Bloqueio manual')}</p></div><button type="button" onclick="removeManualCalendarBlock('${block.id}')" class="text-rose-300 hover:text-rose-200 text-[10px] font-bold">Remover</button></div>`).join('') : '<p class="text-xs text-gray-500">Nenhum bloqueio manual cadastrado.</p>';
+        }
+
+        function addManualCalendarBlock() {
+            const property = propertiesState.find(item => String(item.id) === String(activeCalendarPropertyId));
+            if (!property) return;
+            const startDate = document.getElementById('manualBlockStart').value;
+            const endDate = document.getElementById('manualBlockEnd').value;
+            const reason = document.getElementById('manualBlockReason').value.trim();
+            if (!startDate || !endDate || endDate < startDate) { showToast('Informe um período válido para bloquear.', 'error'); return; }
+            const collision = (property.airbnbEvents || []).some(event => startDate < event.endDate && endDate >= event.startDate);
+            if (collision && !confirm('Este período coincide com datas ocupadas no Airbnb. Deseja registrar também o bloqueio manual?')) return;
+            property.manualBlocks = property.manualBlocks || [];
+            property.manualBlocks.push({ id: `B${Date.now()}`, startDate, endDate, reason, createdAt: new Date().toISOString() });
+            savePropertiesState();
+            renderPropertyCalendar();
+            showToast('Período bloqueado no calendário do HostMaster.', 'success');
+        }
+
+        function removeManualCalendarBlock(blockId) {
+            const property = propertiesState.find(item => String(item.id) === String(activeCalendarPropertyId));
+            if (!property) return;
+            property.manualBlocks = (property.manualBlocks || []).filter(block => block.id !== blockId);
+            savePropertiesState();
+            renderPropertyCalendar();
+            showToast('Bloqueio manual removido.', 'success');
+        }
+
+        function savePropertyIcalUrl() {
+            const property = propertiesState.find(item => String(item.id) === String(activeCalendarPropertyId));
+            if (!property) return;
+            const value = document.getElementById('calendarIcalUrl').value.trim();
+            if (value) {
+                try {
+                    const parsed = new URL(value);
+                    if (!['airbnb.com', 'www.airbnb.com', 'airbnb.com.br', 'www.airbnb.com.br'].includes(parsed.hostname.toLowerCase()) || !/\.ics(?:$|\?)/i.test(parsed.pathname + parsed.search)) {
+                        showToast('Use o link iCal exportado pelo Airbnb, normalmente terminado em .ics.', 'error');
+                        return;
+                    }
+                } catch (error) { showToast('Informe um link iCal válido.', 'error'); return; }
+            }
+            property.airbnbIcalUrl = value;
+            savePropertiesState();
+            document.getElementById('airbnbCalendarSyncStatus').textContent = value ? 'Link iCal salvo neste navegador. Falta conectar o servidor seguro para importar e atualizar as reservas.' : 'Link iCal removido.';
+            showToast(value ? 'Link iCal cadastrado para este imóvel.' : 'Link iCal removido.', 'success');
+        }
+
+        function showAirbnbSyncSetupHelp() {
+            alert('Para importar as reservas automaticamente, cole o link iCal (.ics) exportado no Airbnb. O link normal do anúncio não contém o calendário. A leitura periódica precisa de uma função no servidor e do Supabase para guardar o link em área privada e sincronizar as datas sem expor o endereço iCal no navegador.');
+        }
+
+        function renderDRETable() {
+            const tbody = document.getElementById('dreTableBody');
+            if(!tbody) return;
+            if (!dreData.length) {
+                tbody.innerHTML = '<tr><td colspan="3" class="py-6 px-4 text-center text-gray-500">Nenhum lançamento financeiro registrado.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = dreData.map(item => {
+                const isTotal = item.category.startsWith('(=)');
+                return `
+                    <tr class="${isTotal ? 'bg-indigo-950/40 font-black text-white' : 'hover:bg-gray-900/50'}">
+                        <td class="py-3 px-4 ${isTotal ? 'text-indigo-300 font-extrabold' : 'text-gray-300'}">${item.category}</td>
+                        <td class="py-3 px-4 text-right ${item.value < 0 ? 'text-rose-400' : 'text-emerald-400'} font-mono">
+                            ${item.value < 0 ? '-' : ''} R$ ${Math.abs(item.value).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+                        </td>
+                        <td class="py-3 px-4 text-right font-mono ${item.percent < 0 ? 'text-rose-400' : 'text-emerald-400'}">
+                            ${item.percent}%
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderKeyRushMissions() {
+            const list = document.getElementById('keyrushMissionsList');
+            const countEl = document.getElementById('missionCount');
+            if(!list || !countEl) return;
+            countEl.innerText = `${missionsState.length} Disponíveis`;
+            if (!missionsState.length) {
+                list.innerHTML = '<div class="rounded-xl border border-dashed border-gray-700 bg-gray-950 p-6 text-center text-xs text-gray-400">Nenhum chamado cadastrado no momento.</div>';
+                return;
+            }
+            list.innerHTML = missionsState.map(m => `
+                <div class="bg-gray-900 border border-gray-800 p-4 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 hover:border-amber-500/40 transition">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs bg-amber-500/20 text-amber-400 font-bold px-2 py-0.5 rounded">${m.type}</span>
+                            <span class="text-xs text-gray-400 font-mono">ID: ${m.id}</span>
+                        </div>
+                        <h5 class="font-bold text-white text-sm">${m.property}</h5>
+                        <p class="text-xs text-gray-400"><i class="fa-solid fa-user mr-1 text-gray-500"></i> ${m.guest} • <i class="fa-solid fa-clock mr-1 text-gray-500"></i> ${m.time}</p>
+                    </div>
+
+                    <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-4">
+                        <div class="text-right">
+                            <span class="text-xs text-gray-400 block">Passe</span>
+                            <span class="text-lg font-black text-emerald-400 font-mono">R$ ${m.fee.toFixed(2)}</span>
+                        </div>
+                        ${m.status === 'Pendente' ? `
+                            <button onclick="triggerSpecificModal('${m.id}')" class="px-3 py-2 bg-amber-500 hover:bg-amber-600 text-gray-950 text-xs font-black rounded-lg shadow-md transition">
+                                Aceitar ⚡
+                            </button>
+                        ` : `
+                            <span class="px-3 py-1.5 bg-emerald-500/20 text-emerald-400 text-xs font-bold rounded-lg border border-emerald-500/30">
+                                <i class="fa-solid fa-check mr-1"></i> Aceito
+                            </span>
+                        `}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function simulateIncomingCall(missionId = null) {
+            if (perfilAutenticado !== 'gestor') {
+                showToast('Este recurso de teste é exclusivo do Gestor Master.', 'error');
+                return;
+            }
+            const mission = missionsState.find(item => item.id === (missionId || activeMissionId))
+                || missionsState.find(item => item.status === 'Pendente')
+                || missionsState[0];
+            if (!mission) return;
+            setKeyRushActiveMission(mission.id, false);
+            const propertyTitle = document.getElementById('modalPropertyTitle');
+            const guestDetails = document.getElementById('modalGuestDetails');
+            const serviceType = document.getElementById('modalServiceType');
+            const missionFee = document.getElementById('modalMissionFee');
+            if (propertyTitle) propertyTitle.innerText = mission.property;
+            if (guestDetails) guestDetails.innerText = `Hóspede: ${mission.guest} • ${mission.time}`;
+            if (serviceType) serviceType.innerText = mission.type;
+            if (missionFee) missionFee.innerText = formatMoney(mission.fee);
+            playKeyRushAlertSound();
+            document.getElementById('incomingCallModal').classList.remove('hidden');
+            countdownSeconds = 30;
+            const timerEl = document.getElementById('acceptTimer');
+            const barEl = document.getElementById('acceptProgressBar');
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                countdownSeconds--;
+                if (timerEl) timerEl.innerText = `00:${countdownSeconds < 10 ? '0' : ''}${countdownSeconds}`;
+                if (barEl) barEl.style.width = `${(countdownSeconds / 30) * 100}%`;
+                if (countdownSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    declineMission();
+                    showToast('Tempo de teste expirado.', 'info');
+                }
+            }, 1000);
+        }
+
+        function triggerSpecificModal(missionId) {
+            setKeyRushActiveMission(missionId, false);
+            simulateIncomingCall(missionId);
+        }
+
+        function acceptMission() {
+            clearInterval(timerInterval);
+            document.getElementById('incomingCallModal').classList.add('hidden');
+            const mission = missionsState.find(item => item.id === activeMissionId);
+            if (mission) mission.status = 'Aceito';
+            renderKeyRushMissions();
+            showToast("🚀 Missão aceita! Solicitando GPS para iniciar a rota.", "success");
+            switchMode('keyrush');
+            updateKeyRushLocation();
+        }
+
+        function declineMission() {
+            clearInterval(timerInterval);
+            document.getElementById('incomingCallModal').classList.add('hidden');
+        }
+
+        function requestKeyRushForProp(title) {
+            if (!['proprietario', 'gestor'].includes(perfilAutenticado)) {
+                showToast('Apenas Proprietário ou Gestor Master podem solicitar serviços.', 'error');
+                return;
+            }
+            const property = propertiesState.find(item => item.title === title) || null;
+            const missionId = `M${Date.now()}`;
+            const mission = {
+                id: missionId, property: title, guest: 'Solicitado pelo proprietário', time: 'Solicitado agora',
+                fee: 0, status: 'Pendente', type: 'Serviço KeyRush', address: property ? property.address : '',
+                origin: 'owner_catalog', ownerName: currentUserName || 'Proprietário', ownerEmail: currentUser?.email || '',
+                providerName: '', providerEmail: '', declinedBy: [], createdAt: new Date().toISOString()
+            };
+            missionsState.unshift(mission);
+            saveOwnerMissions();
+            chamadaPendente = { id: Date.now(), tipo: mission.type, imovel: mission.property, valor: mission.fee, status: 'Aguardando Prestador Aceitar', missionId };
+            setKeyRushActiveMission(missionId, false);
+            renderPrestadorArea(); atualizarTelaEsperaProprietario();
+            showToast('Solicitação enviada. Procurando prestador...', 'success');
+        }
+
+        function openAddPropertyModal() {
+            document.getElementById('addPropertyModal').classList.remove('hidden');
+        }
+
+        function openAdvancedChartsModal() {
+            document.getElementById('advancedChartsModal').classList.remove('hidden');
+            if(!modalChartsInitialized) {
+                setTimeout(initModalCharts, 150);
+                modalChartsInitialized = true;
+            }
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function saveProperty(e) {
+            e.preventDefault();
+            const newProp = {
+                id: Math.max(0, ...propertiesState.map(item => Number(item.id) || 0)) + 1,
+                title: document.getElementById('propTitle').value,
+                address: document.getElementById('propAddress').value,
+                airbnbUrl: document.getElementById('propAirbnbUrl').value,
+                airbnbIcalUrl: document.getElementById('propAirbnbIcalUrl').value.trim(),
+                airbnbEvents: [],
+                manualBlocks: [],
+                dailyRate: parseFloat(document.getElementById('propDaily').value),
+                status: document.getElementById('propStatus').value,
+                image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500&q=80"
+            };
+
+            propertiesState.push(newProp);
+            savePropertiesState();
+            renderProperties();
+            renderOwnerServiceCatalog();
+            closeModal('addPropertyModal');
+            showToast("🏠 Imóvel cadastrado com sucesso!", "success");
+            document.getElementById('formProperty').reset();
+        }
+
+        function openAddExpenseModal() {
+            const val = prompt("Digite o valor da despesa operacional (R$):");
+            if(val) {
+                const parsed = parseFloat(val);
+                if(!isNaN(parsed)) {
+                    dreData.push({ category: "(-) Despesa Adicional Lançada", value: -parsed, percent: -1.2 });
+                    renderDRETable();
+                    showToast("Despesa registrada no DRE!", "info");
+                }
+            }
+        }
+
+        function openAddIncomeModal() {
+            const val = prompt("Digite o valor da receita bruta extra (R$):");
+            if(val) {
+                const parsed = parseFloat(val);
+                if(!isNaN(parsed)) {
+                    dreData[0].value += parsed;
+                    renderDRETable();
+                    showToast("Receita adicionada com sucesso!", "success");
+                }
+            }
+        }
+
+        function openNewDeliveryModal() {
+            switchMode('keyrush');
+            simulateIncomingCall();
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            if(!container) return;
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-emerald-600' : type === 'error' ? 'bg-rose-600' : 'bg-indigo-600';
+            
+            toast.className = `${bgColor} text-white px-4 py-3 rounded-xl shadow-xl font-medium text-xs flex items-center gap-2 transform transition-all duration-300 pointer-events-auto`;
+            toast.innerHTML = `<i class="fa-solid fa-circle-info"></i> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        function initCharts() {
+            if (chartsInitialized) return;
+            const overviewEl = document.getElementById('overviewChart');
+            if(overviewEl) {
+                new Chart(overviewEl.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Sem dados'],
+                        datasets: [
+                            { label: 'Receita Bruta (R$)', data: [0], backgroundColor: '#6366f1', borderRadius: 6 },
+                            { label: 'Lucro Líquido (R$)', data: [0], backgroundColor: '#10b981', borderRadius: 6 }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { labels: { color: '#9ca3af' } } },
+                        scales: {
+                            x: { ticks: { color: '#9ca3af' }, grid: { display: false } },
+                            y: { ticks: { color: '#9ca3af' }, grid: { color: '#1f2937' } }
+                        }
+                    }
+                });
+            }
+
+            const costsEl = document.getElementById('costsDoughnutChart');
+            if(costsEl) {
+                new Chart(costsEl.getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Comissões Airbnb', 'KeyRush Entregas', 'Limpeza & Faxina', 'Manutenção'],
+                        datasets: [{
+                            data: [0, 0, 0, 0],
+                            backgroundColor: ['#f43f5e', '#f59e0b', '#3b82f6', '#8b5cf6'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { color: '#9ca3af', font: { size: 10 } } } }
+                    }
+                });
+            }
+        }
+
+        function initModalCharts() {
+            const profitBarEl = document.getElementById('modalProfitBarChart');
+            if(profitBarEl) {
+                new Chart(profitBarEl.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Sem dados'],
+                        datasets: [
+                            { label: 'Lucro Bruto', data: [0], backgroundColor: '#f43f5e', borderRadius: 6 },
+                            { label: 'Lucro Líquido (Net)', data: [0], backgroundColor: '#10b981', borderRadius: 6 }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { labels: { color: '#9ca3af', font: { size: 10 } } } },
+                        scales: {
+                            x: { ticks: { color: '#9ca3af' }, grid: { display: false } },
+                            y: { ticks: { color: '#9ca3af' }, grid: { color: '#1f2937' } }
+                        }
+                    }
+                });
+            }
+
+            const revPieEl = document.getElementById('modalRevenuePieChart');
+            if(revPieEl) {
+                new Chart(revPieEl.getContext('2d'), {
+                    type: 'pie',
+                    data: {
+                        labels: ['Diárias Airbnb', 'Upsell Concierge', 'Taxas de Limpeza'],
+                        datasets: [{
+                            data: [0, 0, 0],
+                            backgroundColor: ['#6366f1', '#f59e0b', '#10b981'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'bottom', labels: { color: '#9ca3af', font: { size: 10 } } } }
+                    }
+                });
+            }
+        }
+
+        
+        // Inicialização da Central Unificada integrada ao login original.
+        renderProperties();
+        renderDRETable();
+        renderKeyRushMissions();
+        renderServicesAdmin();
+        renderOwnerServiceCatalog();
+        renderPrestadorReport();
+        selecionarPerfilLogin('proprietario');
+        const firstMission = missionsState.find(m => m.status === 'Pendente') || missionsState[0];
+        if (firstMission) setKeyRushActiveMission(firstMission.id, false);
+    
+        // Sincroniza abas abertas no mesmo navegador. Para sincronização entre aparelhos, use Supabase.
+        window.addEventListener('storage', event => {
+            if (event.key === 'hostmaster_properties_v1' && event.newValue) {
+                try { const savedProps = JSON.parse(event.newValue); if (Array.isArray(savedProps)) { propertiesState = savedProps; renderProperties(); renderOwnerServiceCatalog(); if (activeCalendarPropertyId) renderPropertyCalendar(); } } catch (error) { console.warn('Falha ao sincronizar imóveis entre abas.', error); }
+                return;
+            }
+            if (event.key !== 'hostmaster_owner_missions_v1' || !event.newValue) return;
+            try {
+                const saved = JSON.parse(event.newValue);
+                if (!Array.isArray(saved)) return;
+                missionsState = missionsState.filter(item => item.origin !== 'owner_catalog').concat(saved);
+                const email = currentUser?.email || '';
+                const latest = saved.filter(item => item.ownerEmail === email).sort((a,b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))[0];
+                if (latest) chamadaPendente = { missionId: latest.id, tipo: latest.type, imovel: latest.property, valor: latest.fee, status: latest.status === 'Pendente' ? 'Aguardando Prestador Aceitar' : latest.status === 'Em execução' ? 'Em Trânsito (A caminho)' : latest.status };
+                renderPrestadorArea();
+                renderKeyRushMissions();
+                renderPrestadorReport();
+                atualizarTelaEsperaProprietario();
+            } catch (error) { console.warn('Falha ao sincronizar chamados entre abas:', error); }
+        });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./config.js"></script>
+<script src="./v4-integration.js"></script>
+</body>
+</html>
