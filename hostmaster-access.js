@@ -115,7 +115,7 @@
       property_id, device_name, manufacturer: $('access-manufacturer').value,
       device_type: $('access-type').value, model: $('access-model').value.trim(),
       external_device_id: $('access-external-id').value.trim(), notes: $('access-notes').value.trim(),
-      created_by: window.currentUser?.id
+      created_by: currentUser?.id
     };
     try {
       const { error } = await db.from('access_devices').insert(payload);
@@ -142,7 +142,7 @@
   window.configurarInterfaceLogada = function () {
     if (typeof originalConfigure === 'function') originalConfigure();
     ensurePanel();
-    if (window.perfilAutenticado === 'gestor') {
+    if (perfilAutenticado === 'gestor') {
       const nav = $('dynamic-nav-tabs');
       if (nav && !$('tab-btn-access')) {
         const b = document.createElement('button');
@@ -161,7 +161,7 @@
     const panel = $('panel-access-master');
     if (panel) panel.classList.add('hidden');
     if (typeof originalSwitch === 'function') originalSwitch(tab);
-    if (tab === 'access' && window.perfilAutenticado === 'gestor') {
+    if (tab === 'access' && perfilAutenticado === 'gestor') {
       document.querySelectorAll('#dynamic-nav-tabs button').forEach(b => b.className = 'py-3 px-1 flex items-center gap-2 text-slate-400 hover:text-white');
       const p = $('panel-access-master'); if (p) p.classList.remove('hidden');
       const b = $('tab-btn-access'); if (b) b.className = 'py-3 px-1 font-bold text-white flex items-center gap-2 border-b-2 border-cyan-400';
